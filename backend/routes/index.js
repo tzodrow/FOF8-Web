@@ -9,6 +9,7 @@ const routes = (app) => {
   router.post("/todos", (req, res) => {
     const todo = new Todo({
       text: req.body.text,
+      newField: true
     });
 
     todo

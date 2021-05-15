@@ -10,6 +10,7 @@ export default class App extends React.Component {
 
     this.state = {
       todos: [],
+      highlighted: false
     };
   }
 
@@ -17,6 +18,7 @@ export default class App extends React.Component {
     axios
       .get("/api")
       .then((response) => {
+        console.log(response.data.data);
         this.setState({
           todos: response.data.data,
         });
@@ -45,11 +47,39 @@ export default class App extends React.Component {
               <div className="todo-app">
                 <AddTodo handleAddTodo={this.handleAddTodo} />
                 <TodoList todos={this.state.todos} />
+                <div
+                  className={this.state.highlighted ? 'green-background' : ''}
+                  onDragEnter={() => this.setHighlighted(true)}
+                  onDragLeave={() => this.setHighlighted(false)}
+                  onDrag={(e)=> {
+                    e.preventDefault();
+                  }}
+                  onDrop={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+
+                    this.setHighlighted(false);
+
+                    Array.from(e.dataTransfer.files)
+                      .filter((file) => file.type === "text/csv")
+                      .forEach((file) => {
+                        console.log(file);
+                      })
+                  }}
+                >
+                  Drag to Me
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     );
+  }
+
+  setHighlighted = (val) => {
+    this.setState({
+      highlighted: val
+    });
   }
 }
