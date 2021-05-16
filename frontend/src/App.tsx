@@ -3,6 +3,7 @@ import axios from "axios";
 import "./App.scss";
 import { AddTodo } from "./components/AddTodo";
 import { TodoList } from "./components/TodoList";
+import { FileDropzone } from './components/FileDropzone';
 
 
 export function App() {
@@ -36,28 +37,7 @@ export function App() {
             <div className="todo-app">
               <AddTodo handleAddTodo={handleAddTodo} />
               <TodoList todos={todos} />
-              <div
-                className={highlighted ? 'green-background' : ''}
-                onDragEnter={() => setHighlighted(true)}
-                onDragLeave={() => setHighlighted(false)}
-                onDrag={(e) => {
-                  e.preventDefault();
-                }}
-                onDrop={(e) => {
-                  e.stopPropagation();
-                  e.preventDefault();
-
-                  setHighlighted(false);
-
-                  Array.from(e.dataTransfer.files)
-                    .filter((file) => file.type === "text/csv")
-                    .forEach((file) => {
-                      console.log(file);
-                    })
-                }}
-              >
-                Drag to Me
-              </div>
+              <FileDropzone />
             </div>
           </div>
         </div>
