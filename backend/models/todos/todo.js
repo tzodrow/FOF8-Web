@@ -1,6 +1,3 @@
-/**
- * Created by Syed Afzal
- */
 const mongoose = require('mongoose');
 
 const todoSchema = new mongoose.Schema({
