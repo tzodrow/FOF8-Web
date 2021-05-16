@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 interface IAddTodoProps {
   handleAddTodo: (val: string) => void;
