@@ -2,6 +2,7 @@ const express = require("express");
 const serverResponses = require("../utils/helpers/responses");
 const messages = require("../config/messages");
 const { Todo } = require("../models/todos/todo");
+const { Draft } = require("../models/players/draft");
 
 const routes = (app) => {
   const router = express.Router();
@@ -29,6 +30,32 @@ const routes = (app) => {
       })
       .catch((e) => {
         serverResponses.sendError(res, messages.BAD_REQUEST, e);
+      });
+  });
+
+  router.get("/draft", (req, res) => {
+    Draft.find({})
+      .then((draftProfiles) => {
+        serverResponses.sendSuccess(res, messages.SUCCESSFUL, draftProfiles)
+      })
+      .catch((e) => {
+        serverResponses.sendError(res, messages.BAD_REQUEST, e);
+      });
+  });
+
+  router.post("/draft", (req, res) => {
+    const draftProfiles = req.body.map(dp => {
+      const draftProfile = new Draft({
+        ...dp
+      });
+      return draftProfile.save();
+    });
+    Promise.all(draftProfiles)
+      .then((res) => {
+        serverResponses.sendSuccess(res, messages.SUCCESSFUL, res.length);
+      })
+      .catch((e) => {
+        serverResponses.sendError(res, e);
       });
   });
 

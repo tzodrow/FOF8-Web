@@ -8,15 +8,22 @@ import { FileDropzone } from './components/FileDropzone';
 
 export function App() {
   const [todos, setTodos] = useState<Array<{ text: string }>>([{ text: "example"}]);
+  const [init, setInit] = useState(false);
   const [highlighted, setHighlighted] = useState(false);
 
   useEffect(() => {
-    axios
-      .get("/api")
-      .then((response) => {
-        setTodos(response.data.data);
-      })
-      .catch((e) => console.log("Error : ", e));
+    if (!init) {
+      setInit(true);
+      axios
+        .get("/api")
+        .then((response) => {
+          setTodos(response.data.data);
+        })
+        .catch((e) => {
+          console.log("Error : ", e);
+          setInit(false);
+        });
+    }
   });
 
   const handleAddTodo = (text: string) => {
