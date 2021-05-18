@@ -6,7 +6,7 @@ const serverResponse = {
             message: message.message,
         };
         if (data) { responseMessage.data = data; }
-        return res.status(message.code).json(responseMessage);
+        return message.code; // res.status(message.code).json(responseMessage);
     },
     sendError: (res, error) => {
         const responseMessage = {
@@ -14,7 +14,7 @@ const serverResponse = {
             success: false,
             message: error.message,
         };
-        return res.status(error.code ? error.code : 500).json(responseMessage);
+        return error.code; // res.status(error.code ? error.code : 500).json(responseMessage);
     },
 };
 

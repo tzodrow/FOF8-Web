@@ -44,18 +44,19 @@ const routes = (app) => {
   });
 
   router.post("/draft", (req, res) => {
-    const draftProfiles = req.body.map(dp => {
-      const draftProfile = new Draft({
-        ...dp
-      });
-      return draftProfile.save();
+    const draftProfile = {...req.body};
+    console.log(draftProfile);
+    const draft = new Draft({
+      ...req.body
     });
-    Promise.all(draftProfiles)
-      .then((res) => {
-        serverResponses.sendSuccess(res, messages.SUCCESSFUL, res.length);
+
+    draft
+      .save()
+      .then((result) => {
+        serverResponses.sendSuccess(res, messages.SUCCESSFUL, result);
       })
       .catch((e) => {
-        serverResponses.sendError(res, e);
+        serverResponses.sendError(res, messages.BAD_REQUEST, e);
       });
   });
 

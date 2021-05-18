@@ -19,8 +19,9 @@ export function FileDropzone() {
         });
         console.log(results);
         if (file.name === "draft_personal.csv") {
+          const data = results.data.filter((d, index) => (d as { Player_ID: string}).Player_ID !== "" && index < 10);
           axios
-            .post("/api/draft", results.data)
+            .post("/api/draft", data[0])
             .then((res) => {
               console.log(res);
             })

@@ -9,7 +9,6 @@ import { FileDropzone } from './components/FileDropzone';
 export function App() {
   const [todos, setTodos] = useState<Array<{ text: string }>>([{ text: "example"}]);
   const [init, setInit] = useState(false);
-  const [highlighted, setHighlighted] = useState(false);
 
   useEffect(() => {
     if (!init) {
@@ -24,7 +23,7 @@ export function App() {
           setInit(false);
         });
     }
-  });
+  }, [init]);
 
   const handleAddTodo = (text: string) => {
     axios
