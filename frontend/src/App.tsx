@@ -1,10 +1,27 @@
 import { useState, useEffect } from 'react';
+import * as rax from 'retry-axios';
 import axios from "axios";
 import "./App.scss";
 import { FileDropzone } from './components/FileDropzone';
 import { IRecord } from './models/record';
+
+const myAxiosInstance = axios.create();
+myAxiosInstance.defaults.raxConfig = {
+  instance: myAxiosInstance,
+  retry: 3,
+  noResponseRetries: 4,
+  backoffType: 'exponential',
+  statusCodesToRetry: [[100, 199], [429, 429], [500, 599]],
+  httpMethodsToRetry: ['GET', 'HEAD', 'OPTIONS', 'DELETE', 'PUT'],
+  onRetryAttempt: err => {
+    const cfg = rax.getConfig(err);
+    console.log(`Retry attempt #${cfg?.currentRetryAttempt}`);
+  }
+};
+const interceptorId = rax.attach(myAxiosInstance);
+
 const getRecords = (successCallback?: (data: any) => void, failureCallback?: () => void) => {
-  axios
+  myAxiosInstance
     .get("/api/player")
     .then((response) => {
       console.log(response.data);
@@ -21,7 +38,7 @@ const getRecords = (successCallback?: (data: any) => void, failureCallback?: () 
 }
 
 const saveRecord = (record: IRecord, successCallback?: () => void, failureCallback?: () => void) => {
-  axios
+  myAxiosInstance
     .post("/api/player/draft", record)
     .then((res) => {
       console.log(res);
@@ -38,7 +55,7 @@ const saveRecord = (record: IRecord, successCallback?: () => void, failureCallba
 }
 
 const saveRecords = (records: Array<IRecord>, successCallback?: () => void, failureCallback?: () => void) => {
-  axios
+  myAxiosInstance
     .post("/api/player/draftmany", records)
     .then((res) => {
       console.log(res);
@@ -55,20 +72,23 @@ const saveRecords = (records: Array<IRecord>, successCallback?: () => void, fail
 }
 
 const upsertRecord = (record: IRecord, successCallback?: () => void, failureCallback?: () => void) => {
-  axios
-  .put("/api/player/upsert", record)
-  .then((res) => {
-    console.log(res);
-    if (successCallback) {
-      successCallback();
-    }
-  })
-  .catch((e) => {
-    console.log("Error : ", e);
-    if (failureCallback) {
-      failureCallback();
-    }
-  });
+  myAxiosInstance
+    .put("/api/player/upsert", record)
+    .then((res) => {
+      if (successCallback) {
+        successCallback();
+      }
+    })
+    .catch((e) => {
+      console.log("Error : ", e);
+      if (failureCallback) {
+        failureCallback();
+      }
+    });
+}
+
+const batchUpsert = (record: IRecord) => {
+  return myAxiosInstance.put("/api/player/upsert", record);
 }
 
 export function App() {
@@ -81,12 +101,12 @@ export function App() {
     if (!init) {
       setInit(true);
 
-      getRecords(
-        (data) => {
-          const sorted: Array<IRecord> = data.data.filter((_: IRecord, index: number) => index < 10).sort((a: IRecord, b: IRecord) => Number(a.Player_ID) - Number(b.Player_ID));
-          setSavedRecords(sorted);
-        },
-        () => setInit(false));
+      // getRecords(
+      //   (data) => {
+      //     const sorted: Array<IRecord> = data.data.filter((_: IRecord, index: number) => index < 10).sort((a: IRecord, b: IRecord) => Number(a.Player_ID) - Number(b.Player_ID));
+      //     setSavedRecords(sorted);
+      //   },
+      //   () => setInit(false));
     }
   }, [init]);
 
@@ -109,10 +129,22 @@ export function App() {
     }
   }
 
-  const writeAllRecords = (records: Array<IRecord>) => {
-    records.forEach(r => {
-      upsertRecord(r);
-    });
+  const writeAllRecords = async (records: Array<IRecord>) => {
+    while(records.length > 0) {
+      const batch = records.splice(0, 200);
+      const upserts = batch.map(br => batchUpsert(br));
+      await Promise.all(upserts)
+        .then(res => {
+          console.log("Success Batch Insert.");
+        })
+        .catch(err => {
+          console.error(err);
+        })
+    }
+
+    // records.forEach(r => {
+    //   upsertRecord(r);
+    // });
   }
 
   return (
