@@ -28,7 +28,7 @@ export function App() {
   const [savedRecords, setSavedRecords] = useState<Array<IRecord>>([]);
   const [insertManyCount, setInsertManyCount] = useState("10");
 
-  const displayRecords = records.filter(r => !savedRecords.some(sr => sr.Player_ID === r.Player_ID));
+  let displayRecords = records.filter(r => !savedRecords.some(sr => sr.Player_ID === r.Player_ID));
 
   useEffect(() => {
     if (!init) {
@@ -64,8 +64,8 @@ export function App() {
       <div className="container-fluid">
         <div className="row">
           <div className="col-xs-12 col-sm-8 col-md-8 offset-md-2">
-            <h1>Todos</h1>
-            <div className="todo-app">
+            <h1>FOF8 Uploader</h1>
+            <div className="fof8-app">
               <FileDropzone loadRecords={setRecords} />
               <div>
                 <input type={"text"} value={insertManyCount} onChange={onChange} />
