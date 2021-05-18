@@ -1,13 +1,16 @@
-import axios from "axios";
 import { useCallback } from "react"
 import { useDropzone } from "react-dropzone"
 import { readString } from "react-papaparse";
+import { IRecord } from "../models/record";
 
-export function FileDropzone() {
+interface IFileDropzoneProps {
+  loadRecords: (records: Array<IRecord>) => void;
+}
+
+export function FileDropzone(props: IFileDropzoneProps) {
   const onDrop = useCallback(acceptedFiles => {
     acceptedFiles.forEach((file: Blob & File) => {
       const reader = new FileReader();
-      console.log(file.name);
 
       reader.onabort = () => console.log('file reading was aborted')
       reader.onerror = () => console.log('file reading has failed')
@@ -17,15 +20,9 @@ export function FileDropzone() {
         const results = readString(binaryStr, {
           header: true
         });
-        console.log(results);
         if (file.name === "draft_personal.csv") {
-          const data = results.data.filter((d, index) => (d as { Player_ID: string}).Player_ID !== "" && index < 10);
-          axios
-            .post("/api/draft", data[0])
-            .then((res) => {
-              console.log(res);
-            })
-            .catch((e) => console.log("Error : ", e));
+          const data: Array<IRecord> = results.data.map(d => d as IRecord);
+          props.loadRecords(data);
         }
       }
       reader.readAsText(file);

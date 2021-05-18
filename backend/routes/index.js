@@ -44,8 +44,7 @@ const routes = (app) => {
   });
 
   router.post("/draft", (req, res) => {
-    const draftProfile = {...req.body};
-    console.log(draftProfile);
+    console.log(req.body);
     const draft = new Draft({
       ...req.body
     });

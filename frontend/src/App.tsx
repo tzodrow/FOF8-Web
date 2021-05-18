@@ -4,11 +4,22 @@ import "./App.scss";
 import { AddTodo } from "./components/AddTodo";
 import { TodoList } from "./components/TodoList";
 import { FileDropzone } from './components/FileDropzone';
+import { IRecord } from './models/record';
 
+const saveRecord = (record: IRecord) => {
+  console.log(record);
+  axios
+    .post("/api/draft", record)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((e) => console.log("Error : ", e));
+}
 
 export function App() {
-  const [todos, setTodos] = useState<Array<{ text: string }>>([{ text: "example"}]);
+  const [todos, setTodos] = useState<Array<{ text: string }>>([{ text: "example" }]);
   const [init, setInit] = useState(false);
+  const [records, setRecords] = useState<Array<IRecord>>([]);
 
   useEffect(() => {
     if (!init) {
@@ -43,7 +54,17 @@ export function App() {
             <div className="todo-app">
               <AddTodo handleAddTodo={handleAddTodo} />
               <TodoList todos={todos} />
-              <FileDropzone />
+              <FileDropzone loadRecords={setRecords} />
+              <ul>
+                {records.map(r => {
+                  return (
+                    <li>
+                      <span>{r.Player_ID}</span>
+                      <input value={"Save"} type={"button"} onClick={() => saveRecord(r)} />
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
           </div>
         </div>
