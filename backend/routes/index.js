@@ -31,6 +31,17 @@ const routes = (app) => {
       });
   });
 
+  router.post("/draftmany", (req, res) => {
+    Draft
+      .insertMany(req.body)
+      .then((result) => {
+        serverResponses.sendSuccess(res, messages.SUCCESSFUL, result);
+      })
+      .catch((e) => {
+        serverResponses.sendError(res, messages.BAD_REQUEST, e);
+      });
+  });
+
   //it's a prefix before api it is useful when you have many modules and you want to
   //differentiate b/w each module you can use this technique
   app.use("/api", router);

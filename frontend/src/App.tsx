@@ -5,7 +5,6 @@ import { FileDropzone } from './components/FileDropzone';
 import { IRecord } from './models/record';
 
 const saveRecord = (record: IRecord) => {
-  console.log(record);
   axios
     .post("/api/draft", record)
     .then((res) => {
@@ -14,10 +13,20 @@ const saveRecord = (record: IRecord) => {
     .catch((e) => console.log("Error : ", e));
 }
 
+const saveRecords = (records: Array<IRecord>) => {
+  axios
+  .post("/api/draftmany", records)
+  .then((res) => {
+    console.log(res);
+  })
+  .catch((e) => console.log("Error : ", e));
+}
+
 export function App() {
   const [init, setInit] = useState(false);
   const [records, setRecords] = useState<Array<IRecord>>([]);
   const [savedRecords, setSavedRecords] = useState<Array<IRecord>>([]);
+  const [insertManyCount, setInsertManyCount] = useState("10");
 
   const displayRecords = records.filter(r => !savedRecords.some(sr => sr.Player_ID === r.Player_ID));
 
@@ -37,6 +46,19 @@ export function App() {
     }
   }, [init]);
 
+  const onChange = (e: React.FormEvent<HTMLInputElement>) => {
+    const newValue = e.currentTarget.value;
+    setInsertManyCount(newValue);
+  }
+
+  const onClick = () => {
+    const recordCount = Number(insertManyCount);
+    if (!isNaN(recordCount)){
+      const records = displayRecords.splice(0, recordCount);
+      saveRecords(records);
+    }
+  }
+
   return (
     <div className="App container">
       <div className="container-fluid">
@@ -45,6 +67,10 @@ export function App() {
             <h1>Todos</h1>
             <div className="todo-app">
               <FileDropzone loadRecords={setRecords} />
+              <div>
+                <input type={"text"} value={insertManyCount} onChange={onChange} />
+                <input type={"button"} value={"Insert Many"} onClick={onClick} />
+              </div>
               <ul>
                 {savedRecords.map((r, index) => {
                   return(
