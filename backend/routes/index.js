@@ -1,13 +1,13 @@
 const express = require("express");
 const serverResponses = require("../utils/helpers/responses");
 const messages = require("../config/messages");
-const { Draft } = require("../models/players/draft");
+const { Player } = require("../models/players/player");
 
 const routes = (app) => {
   const router = express.Router();
 
-  router.get("/draft", (req, res) => {
-    Draft.find({})
+  router.get("", (req, res) => {
+    Player.find({})
       .then((draftProfiles) => {
         serverResponses.sendSuccess(res, messages.SUCCESSFUL, draftProfiles)
       })
@@ -17,7 +17,7 @@ const routes = (app) => {
   });
 
   router.post("/draft", (req, res) => {
-    const draft = new Draft({
+    const draft = new Player({
       ...req.body
     });
 
@@ -32,7 +32,7 @@ const routes = (app) => {
   });
 
   router.post("/draftmany", (req, res) => {
-    Draft
+    Player
       .insertMany(req.body)
       .then((result) => {
         serverResponses.sendSuccess(res, messages.SUCCESSFUL, result);
@@ -42,8 +42,21 @@ const routes = (app) => {
       });
   });
 
-  //it's a prefix before api it is useful when you have many modules and you want to
-  //differentiate b/w each module you can use this technique
-  app.use("/api", router);
+  router.put("/upsert", (req, res) => {
+    if (!req.body.Player_ID) {
+      serverResponses.sendError(res, messages.BAD_REQUEST, "Missing Player_ID.");
+    } else {
+      Player
+      .update({ Player_ID: req.body.Player_ID }, { ...req.body }, { upsert: true })
+      .then((result) => {
+        serverResponses.sendSuccess(res, messages.SUCCESSFUL, result);
+      })
+      .catch((e) => {
+        serverResponses.sendError(res, messages.BAD_REQUEST, e);
+      });
+    }
+  })
+
+  app.use("/api/player", router);
 };
 module.exports = routes;

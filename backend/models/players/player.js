@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const draftSchema = new mongoose.Schema({
+const playerSchema = new mongoose.Schema({
     Player_ID: {
         type: Number,
         trim: true,
@@ -63,6 +63,6 @@ const draftSchema = new mongoose.Schema({
 // draftSchema.index({Low_Screen_Passes: 1, Low_Short_Passes: 1});
 // draftSchema.indexes();
 
-const Draft = mongoose.model('Draft', draftSchema);
+const Player = mongoose.model('Player', playerSchema);
 
-module.exports = { Draft };
+module.exports = { Player };
