@@ -14,6 +14,48 @@ const draftSchema = new mongoose.Schema({
     },
     Low_Short_Passes: {
         type: Number
+    },
+    First_Name: { 
+        type: String
+    },
+    Last_Name: {
+        type: String
+    },
+    Position_Group: {
+        type: String
+    },	
+    College: {
+        type: String
+    },
+    Height: {
+        type: Number
+    },
+    Weight: {
+        type: Number
+    },	
+    Dash: {
+        type: Number
+    },	
+    Solecismic: {
+        type: Number
+    },
+    Strength: {
+        type: Number
+    },
+    Agility: {
+        type: Number
+    },
+    Jump: {
+        type: Number
+    },
+    Position_Specific: {
+        type: Number
+    },
+    Developed: {
+        type: Number
+    },
+    Grade: {
+        type: Number
     }
 }, { strict: false });
 
@@ -23,4 +65,4 @@ const draftSchema = new mongoose.Schema({
 
 const Draft = mongoose.model('Draft', draftSchema);
 
-module.exports = {Draft};
+module.exports = { Draft };
