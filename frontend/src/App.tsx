@@ -4,6 +4,8 @@ import "./App.scss";
 import { IRecord } from './models/record';
 import { CSVReader } from 'react-papaparse';
 import { Parser, ParseResult } from 'papaparse';
+import React from 'react';
+import LinearProgress from '@material-ui/core/LinearProgress/LinearProgress';
 
 const myAxiosInstance = axios.create();
 myAxiosInstance.defaults.raxConfig = {
@@ -37,6 +39,7 @@ const upsertRecord = (record: IRecord | Array<IRecord>, successCallback?: () => 
 }
 
 export function App() {
+  const [progress, setProgress] = React.useState(50);
 
   const handleOnError = (err: any, file: any, inputElem: any, reason: any) => {
     console.log(err)
@@ -67,6 +70,7 @@ export function App() {
           <div className="col-xs-12 col-sm-8 col-md-8 offset-md-2">
             <h1>FOF8 Uploader</h1>
             <div className="fof8-app">
+              <LinearProgress variant="determinate" value={progress} />
               <CSVReader
                 onError={handleOnError}
                 style={{}}
