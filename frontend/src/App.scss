@@ -1,28 +1,16 @@
 .App {
   text-align: center;
 }
-.todo-app {
+.fof8-app {
   background-color: #efefef;
   padding: 1.2em;
-  .new-todo{
+
+  .record-container {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    input{
-      width: 80% !important;
-    }
+    flex-direction: row;
+    justify-content: space-around;
   }
 }
 .green-background {
   background-color: green;
 }
-
-
-//.list-group-item{
-//  &.active:hover{
-//
-//  }
-//  &active:hover{
-//    background-color: #d3d3d3;
-//  }
-//}

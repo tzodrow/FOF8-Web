@@ -20,7 +20,7 @@ export function FileDropzone(props: IFileDropzoneProps) {
         const results = readString(binaryStr, {
           header: true
         });
-        if (file.name === "draft_personal.csv") {
+        if (file.name === "draft_personal.csv" || file.name === "rookies.csv" || file.name === "player_record.csv" || file.name === "player_information.csv") {
           const data: Array<IRecord> = results.data.map(d => d as IRecord);
           props.loadRecords(data);
         }
