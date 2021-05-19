@@ -1,119 +1,96 @@
-import { useState, useEffect } from 'react';
-import axios from "axios";
+import * as rax from 'retry-axios';
+import axios, { AxiosResponse } from "axios";
 import "./App.scss";
-import { FileDropzone } from './components/FileDropzone';
 import { IRecord } from './models/record';
-const getRecords = (successCallback?: (data: any) => void, failureCallback?: () => void) => {
-  axios
-    .get("/api/player")
-    .then((response) => {
-      console.log(response.data);
-      if (successCallback) {
-        successCallback(response.data);
-      }
-    })
-    .catch((e) => {
-      console.log("Error : ", e);
-      if (failureCallback) {
-        failureCallback();
-      }
-    });
-}
+import { CSVReader } from 'react-papaparse';
+import { Parser, ParseResult } from 'papaparse';
+import { useEffect, useRef, useState } from 'react';
+import { LinearProgress } from '@material-ui/core';
 
-const saveRecord = (record: IRecord, successCallback?: () => void, failureCallback?: () => void) => {
-  axios
-    .post("/api/player/draft", record)
+const myAxiosInstance = axios.create();
+myAxiosInstance.defaults.raxConfig = {
+  instance: myAxiosInstance,
+  retry: 3,
+  noResponseRetries: 4,
+  backoffType: 'exponential',
+  statusCodesToRetry: [[100, 199], [429, 429], [500, 599]],
+  httpMethodsToRetry: ['GET', 'HEAD', 'OPTIONS', 'DELETE', 'PUT'],
+  onRetryAttempt: err => {
+    const cfg = rax.getConfig(err);
+    console.log(`Retry attempt #${cfg?.currentRetryAttempt}`);
+  }
+};
+const interceptorId = rax.attach(myAxiosInstance);
+
+const upsertRecord = (record: IRecord | Array<IRecord>, successCallback?: (res: AxiosResponse<any>) => void, failureCallback?: () => void) => {
+  myAxiosInstance
+    .put("/api/player/upsert", record)
     .then((res) => {
-      console.log(res);
       if (successCallback) {
-        successCallback();
+        successCallback(res);
       }
     })
     .catch((e) => {
-      console.log("Error : ", e);
+      console.error("Error : ", e);
       if (failureCallback) {
         failureCallback();
       }
     });
 }
 
-const saveRecords = (records: Array<IRecord>, successCallback?: () => void, failureCallback?: () => void) => {
-  axios
-    .post("/api/player/draftmany", records)
-    .then((res) => {
-      console.log(res);
-      if (successCallback) {
-        successCallback();
-      }
-    })
-    .catch((e) => {
-      console.log("Error : ", e);
-      if (failureCallback) {
-        failureCallback();
-      }
-    });
-}
-
-const upsertRecord = (record: IRecord, successCallback?: () => void, failureCallback?: () => void) => {
-  axios
-  .put("/api/player/upsert", record)
-  .then((res) => {
-    console.log(res);
-    if (successCallback) {
-      successCallback();
-    }
-  })
-  .catch((e) => {
-    console.log("Error : ", e);
-    if (failureCallback) {
-      failureCallback();
-    }
-  });
+interface CSVInputRef {
+  state: {
+    file: File
+  }
 }
 
 export function App() {
-  const [init, setInit] = useState(false);
-  const [records, setRecords] = useState<Array<IRecord>>([]);
-  const [savedRecords, setSavedRecords] = useState<Array<IRecord>>([]);
-  // const [insertManyCount, setInsertManyCount] = useState("10");
+  const csvInput = useRef(null);
+  const [csvUploaded, setCsvUploaded] = useState(false);
+  const [dataUploaded, setDataUploaded] = useState(0);
+  const [fileSize, setFileSize] = useState(0);
 
   useEffect(() => {
-    if (!init) {
-      setInit(true);
-
-      getRecords(
-        (data) => {
-          const sorted: Array<IRecord> = data.data.filter((_: IRecord, index: number) => index < 10).sort((a: IRecord, b: IRecord) => Number(a.Player_ID) - Number(b.Player_ID));
-          setSavedRecords(sorted);
-        },
-        () => setInit(false));
+    const csvFileSize = (csvInput.current as unknown as CSVInputRef)?.state?.file?.size;
+    if (csvFileSize !== undefined && csvUploaded) {
+      setDataUploaded(0);
+      setFileSize(csvFileSize);
     }
-  }, [init]);
+  }, [csvUploaded]);
 
-  // const onChange = (e: React.FormEvent<HTMLInputElement>) => {
-  //   const newValue = e.currentTarget.value;
-  //   setInsertManyCount(newValue);
-  // }
+  const handleOnError = (err: any, file: any, inputElem: any, reason: any) => {
+    console.error(err);
+    setCsvUploaded(false);
+  }
 
-  // const onClick = () => {
-  //   const recordCount = Number(insertManyCount);
-  //   if (!isNaN(recordCount)) {
-  //     const insertManyRecords = records.splice(0, recordCount);
-  //     saveRecords(records, () => setSavedRecords([...savedRecords, ...insertManyRecords]));
-  //   }
-  // }
+  const handleOnRemoveFile = (data: null) => {
+    setCsvUploaded(false);
+    setFileSize(0);
+  }
 
-  const upsertSavedRecord = (record: IRecord) => {
-    if (!savedRecords.some(sr => Number(sr.Player_ID) === Number(record.Player_ID))) {
-      setSavedRecords([...savedRecords, record]);
+  const onStep = (result: ParseResult<IRecord>, parser: Parser) => {
+    if (result?.data) {
+      parser.pause();
+      upsertRecord(
+        result.data, 
+        () => {
+          setDataUploaded((prev) => prev + result.meta.cursor);
+          parser.resume();
+        }, 
+        () => parser.abort());
     }
   }
 
-  const writeAllRecords = (records: Array<IRecord>) => {
-    records.forEach(r => {
-      upsertRecord(r);
-    });
+  const onComplete = (results: ParseResult<any>, file?: any) => {
+    setCsvUploaded(false);
   }
+
+  const onBeforeFirstChunk = (chunk: string) => {
+    // TODO: Add verification?
+    setCsvUploaded(true);
+  }
+
+  let value = fileSize > 0 ? (dataUploaded / fileSize) * 100 : 0;
 
   return (
     <div className="App container">
@@ -122,30 +99,24 @@ export function App() {
           <div className="col-xs-12 col-sm-8 col-md-8 offset-md-2">
             <h1>FOF8 Uploader</h1>
             <div className="fof8-app">
-              <FileDropzone loadRecords={writeAllRecords} />
-              {/* <div>
-                <input type={"text"} value={insertManyCount} onChange={onChange} />
-                <input type={"button"} value={"Insert Many"} onClick={onClick} />
-              </div> */}
-              <div className={"record-container"}>
-                <ul>
-                  {savedRecords.map((r, index) => {
-                    return (
-                      <li key={index}>{r.Player_ID} Saved</li>
-                    );
-                  })}
-                </ul>
-                <ul>
-                  {records.map((r, index) => {
-                    return (
-                      <li key={index}>
-                        <span>{r.Player_ID}</span>
-                        <input value={"Upsert"} type={"button"} onClick={() => upsertRecord(r, () => upsertSavedRecord(r))} />
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
+              <LinearProgress variant="determinate" value={value} />
+              <CSVReader
+                ref={csvInput}
+                key={"testing"}
+                onError={handleOnError}
+                config={{
+                  dynamicTyping: true,
+                  skipEmptyLines: true,
+                  header: true,
+                  beforeFirstChunk: onBeforeFirstChunk,
+                  complete: onComplete,
+                  step: onStep
+                }}
+                addRemoveButton
+                onRemoveFile={handleOnRemoveFile}
+              >
+                <span>Drop CSV file here or click to upload.</span>
+              </CSVReader>
             </div>
           </div>
         </div>
