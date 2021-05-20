@@ -38,6 +38,22 @@ const upsertRecord = (record: IRecord | Array<IRecord>, successCallback?: (res: 
     });
 }
 
+const upsertRating = (record: IRecord | Array<IRecord>, successCallback?: (res: AxiosResponse<any>) => void, failureCallback?: () => void) => {
+  myAxiosInstance
+    .put("/api/player/upsertRating", record)
+    .then((res) => {
+      if (successCallback) {
+        successCallback(res);
+      }
+    })
+    .catch((e) => {
+      console.error("Error : ", e);
+      if (failureCallback) {
+        failureCallback();
+      }
+    });
+}
+
 interface CSVInputRef {
   state: {
     file: File
@@ -71,13 +87,25 @@ export function App() {
   const onStep = (result: ParseResult<IRecord>, parser: Parser) => {
     if (result?.data) {
       parser.pause();
-      upsertRecord(
-        result.data, 
-        () => {
-          setDataUploaded((prev) => prev + result.meta.cursor);
-          parser.resume();
-        }, 
-        () => parser.abort());
+
+      // TODO: Add better way to determine the files being sent in
+      if (result.meta.fields?.some(f => f === "Scouting")) {
+        upsertRating(
+          result.data,
+          () => {
+            setDataUploaded((prev) => prev + result.meta.cursor);
+            parser.resume();
+          },
+          () => parser.abort());
+      } else {
+        upsertRecord(
+          result.data,
+          () => {
+            setDataUploaded((prev) => prev + result.meta.cursor);
+            parser.resume();
+          },
+          () => parser.abort());
+      }
     }
   }
 

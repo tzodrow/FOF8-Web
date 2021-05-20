@@ -16,46 +16,48 @@ const routes = (app) => {
       });
   });
 
-  router.post("/draft", (req, res) => {
-    const draft = new Player({
-      ...req.body
-    });
-
-    draft
-      .save()
-      .then((result) => {
-        serverResponses.sendSuccess(res, messages.SUCCESSFUL, result);
-      })
-      .catch((e) => {
-        serverResponses.sendError(res, messages.BAD_REQUEST, e);
-      });
-  });
-
-  router.post("/draftmany", (req, res) => {
-    Player
-      .insertMany(req.body)
-      .then((result) => {
-        serverResponses.sendSuccess(res, messages.SUCCESSFUL, result);
-      })
-      .catch((e) => {
-        serverResponses.sendError(res, messages.BAD_REQUEST, e);
-      });
-  });
-
   router.put("/upsert", (req, res) => {
     if (!req.body.Player_ID) {
       serverResponses.sendError(res, messages.BAD_REQUEST, "Missing Player_ID.");
     } else {
       Player
-      .update({ Player_ID: req.body.Player_ID }, { ...req.body }, { upsert: true })
-      .then((result) => {
-        serverResponses.sendSuccess(res, messages.SUCCESSFUL, result);
-      })
-      .catch((e) => {
-        serverResponses.sendError(res, messages.BAD_REQUEST, e);
-      });
+        .updateOne({ Player_ID: req.body.Player_ID }, { ...req.body }, { upsert: true })
+        .then((result) => {
+          serverResponses.sendSuccess(res, messages.SUCCESSFUL, result);
+        })
+        .catch((e) => {
+          serverResponses.sendError(res, messages.BAD_REQUEST, e);
+        });
     }
-  })
+  });
+
+  router.put("/upsertRating", (req, res) => {
+    if (!req.body.Player_ID) {
+      serverResponses.sendError(res, messages.BAD_REQUEST, "Missing Player_ID.");
+    } else {
+      Player
+        .updateOne(
+          { Player_ID: req.body.Player_ID },
+          { $pull: { Ratings: { Year: req.body.Year, Player_ID: req.body.Player_ID, Scouting: req.body.Scouting } } },
+          { upsert: true })
+        .then((result) => {
+          Player
+            .updateOne(
+              { Player_ID: req.body.Player_ID },
+              { $push: { Ratings: { ...req.body } } },
+              { upsert: true })
+            .then((result) => {
+              serverResponses.sendSuccess(res, messages.SUCCESSFUL, result);
+            })
+            .catch((e) => {
+              serverResponses.sendError(res, messages.BAD_REQUEST, e);
+            });
+        })
+        .catch((e) => {
+          serverResponses.sendError(res, messages.BAD_REQUEST, e);
+        });
+    }
+  });
 
   app.use("/api/player", router);
 };
