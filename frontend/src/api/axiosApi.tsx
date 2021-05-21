@@ -1,6 +1,8 @@
 import * as rax from 'retry-axios';
 import axios, { AxiosResponse } from "axios";
 import { IRecord } from '../models/record';
+import { ILeague } from '../models/league';
+import { IFileHistory } from '../models/fileHistory';
 
 const myAxiosInstance = axios.create();
 myAxiosInstance.defaults.raxConfig = {
@@ -49,13 +51,57 @@ export const upsertRating = (record: IRecord | Array<IRecord>, successCallback?:
     });
 }
 
-export const createLeague = () => {
+export const getLeagues = (setLeagues: (leagues: Array<ILeague>) => void) => {
   myAxiosInstance
-    .post("/api/league", { Name: "Test League", CreateData: new Date(), Active: true })
+    .get("/api/league")
+    .then(res => {
+      setLeagues(res.data.data);
+    })
+    .catch(e => {
+      console.error(e);
+    });
+}
+
+export const createLeague = (league: ILeague) => {
+  myAxiosInstance
+    .post("/api/league", league)
     .then(res => {
       console.log(res);
     })
     .catch(e => {
       console.error(e);
     })
+}
+
+export const getFileHistories = (setFileHistories: (fileHistories: Array<IFileHistory>) => void) => {
+  myAxiosInstance
+    .get("/api/fileHistory")
+    .then(res => {
+      setFileHistories(res.data.data);
+    })
+    .catch(e => {
+      console.error(e);
+    });
+}
+
+export const upsertFileHistory = (fileHistory: IFileHistory) => {
+  myAxiosInstance
+    .put("/api/fileHistory", fileHistory)
+    .then(res => {
+      console.log(res);
+    })
+    .catch(e => {
+      console.error(e);
+    });
+}
+
+export const completeFileHistory = (fileHistory: IFileHistory) => {
+  myAxiosInstance
+    .put("/api/fileHistory/complete", fileHistory)
+    .then(res => {
+      console.log(res);
+    })
+    .catch(e => {
+      console.error(e);
+    });
 }

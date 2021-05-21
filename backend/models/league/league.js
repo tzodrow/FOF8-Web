@@ -4,7 +4,7 @@ const leagueSchema = new mongoose.Schema({
     Name: {
         String
     },
-    CreateData: {
+    CreateDate: {
         Date
     },
     Active: {

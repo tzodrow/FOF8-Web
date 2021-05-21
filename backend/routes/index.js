@@ -3,6 +3,7 @@ const serverResponses = require("../utils/helpers/responses");
 const messages = require("../config/messages");
 const { Player } = require("../models/players/player");
 const { League } = require("../models/league/league");
+const { FileHistory } = require("../models/fileHistory/fileHistory.js");
 
 const routes = (app) => {
   const router = express.Router();
@@ -63,7 +64,7 @@ const routes = (app) => {
   router.get("/league", (req, res) => {
     League.find({})
       .then((leagues) => {
-        serverResponses.sendSuccess(res, messages.SUCCESSFUL, leagues)
+        serverResponses.sendSuccess(res, messages.SUCCESSFUL, leagues);
       })
       .catch((e) => {
         serverResponses.sendError(res, messages.BAD_REQUEST, e);
@@ -71,17 +72,54 @@ const routes = (app) => {
   });
 
   router.post("/league", (req, res) => {
-    const league = new League({
-        ...req.body
-    });
-
-    league.save()
+    League
+      .updateOne({ Name: req.body.Name }, { ...req.body }, { upsert: true })
         .then((leagues) => {
-        serverResponses.sendSuccess(res, messages.SUCCESSFUL, leagues)
+        serverResponses.sendSuccess(res, messages.SUCCESSFUL, leagues);
       })
       .catch((e) => {
         serverResponses.sendError(res, messages.BAD_REQUEST, e);
       });
+  });
+
+  router.get("/fileHistory", (req, res) => {
+    FileHistory.find({})
+      .then((fhs) => {
+        serverResponses.sendSuccess(res, messages.SUCCESSFUL, fhs);
+      })
+      .catch((e) => {
+        serverResponses.sendError(res, messages.BAD_REQUEST, e);
+      });
+  });
+
+  router.put("/fileHistory", (req, res) => {
+    if (!req.body.Name) {
+      serverResponses.sendError(res, messages.BAD_REQUEST, "Missing Name.");
+    } else {
+      FileHistory
+        .updateOne({ Name: req.body.Name, LeagueId: req.body.LeagueId }, { ...req.body }, { upsert: true })
+        .then((result) => {
+          serverResponses.sendSuccess(res, messages.SUCCESSFUL, result);
+        })
+        .catch((e) => {
+          serverResponses.sendError(res, messages.BAD_REQUEST, e);
+        });
+    }
+  });
+
+  router.put("/fileHistory/complete", (req, res) => {
+    if (!req.body.Name) {
+      serverResponses.sendError(res, messages.BAD_REQUEST, "Missing Name.");
+    } else {
+      FileHistory
+        .updateOne({ Name: req.body.Name, LeagueId: req.body.LeagueId }, { $set: { Completed: true }  })
+        .then((result) => {
+          serverResponses.sendSuccess(res, messages.SUCCESSFUL, result);
+        })
+        .catch((e) => {
+          serverResponses.sendError(res, messages.BAD_REQUEST, e);
+        });
+    }
   });
 
   app.use("/api", router);
