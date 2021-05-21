@@ -48,3 +48,14 @@ export const upsertRating = (record: IRecord | Array<IRecord>, successCallback?:
       }
     });
 }
+
+export const createLeague = () => {
+  myAxiosInstance
+    .post("/api/league", { Name: "Test League", CreateData: new Date(), Active: true })
+    .then(res => {
+      console.log(res);
+    })
+    .catch(e => {
+      console.error(e);
+    })
+}

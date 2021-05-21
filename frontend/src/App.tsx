@@ -1,4 +1,5 @@
 
+import { createLeague } from "./api/axiosApi";
 import "./App.scss";
 import { FileUpload } from "./components/FileUpload";
 
@@ -12,6 +13,7 @@ export function App() {
             <div className="fof8-app">
               <FileUpload title={"Player Record"}/>
               <FileUpload title={"Player Ratings"} />
+              <input type={"button"} value={"Create League"} onClick={() => createLeague()} />
             </div>
           </div>
         </div>
