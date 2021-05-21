@@ -2,16 +2,16 @@ const mongoose = require('mongoose');
 
 const fileHistorySchema = new mongoose.Schema({
     Name: {
-        String
+        type: String
     },
     UploadDate: {
-        Date
+        type: Date
     },
     Completed: {
-        Boolean
+        type: Boolean
     },
     LeagueId: mongoose.ObjectId
-}, { strict: true });
+});
 
 const FileHistory = mongoose.model('FileHistory', fileHistorySchema);
 

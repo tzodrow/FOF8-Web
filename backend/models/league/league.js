@@ -2,15 +2,15 @@ const mongoose = require('mongoose');
 
 const leagueSchema = new mongoose.Schema({
     Name: {
-        String
+        type: String
     },
     CreateDate: {
-        Date
+        type: Date
     },
     Active: {
-        Boolean
+        type: Boolean
     }
-}, { strict: true });
+});
 
 const League = mongoose.model('League', leagueSchema);
 

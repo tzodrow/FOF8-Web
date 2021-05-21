@@ -1,6 +1,6 @@
 import { LinearProgress } from "@material-ui/core";
 import { ParseResult, Parser } from "papaparse";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { CSVReader } from "react-papaparse";
 import { upsertRating, upsertRecord } from "../api/axiosApi";
 import { IRecord } from "../models/record";
@@ -13,6 +13,12 @@ interface CSVInputRef {
 
 interface IFileUploadProps {
     title: string;
+    onUpload?: (file: File) => void;
+    onComplete?: (file: File) => void;
+}
+
+const getFile = (ref: React.MutableRefObject<null>) => {
+    return (ref.current as unknown as CSVInputRef)?.state?.file;
 }
 
 export function FileUpload(props: IFileUploadProps) {
@@ -22,10 +28,14 @@ export function FileUpload(props: IFileUploadProps) {
     const [fileSize, setFileSize] = useState(0);
 
     useEffect(() => {
-        const csvFileSize = (csvInput.current as unknown as CSVInputRef)?.state?.file?.size;
-        if (csvFileSize !== undefined && csvUploaded) {
+        const csvFile = getFile(csvInput);
+        
+        if (csvFile !== undefined && csvUploaded) {
             setDataUploaded(0);
-            setFileSize(csvFileSize);
+            setFileSize(csvFile?.size);
+            if (props.onUpload) {
+                props.onUpload(csvFile);
+            }
         }
     }, [csvUploaded]);
 
@@ -64,7 +74,11 @@ export function FileUpload(props: IFileUploadProps) {
         }
     }
 
-    const onComplete = (results: ParseResult<any>, file?: any) => {
+    const onComplete = (results: ParseResult<any>) => {
+        const file = getFile(csvInput);
+        if (props.onComplete) {
+            props.onComplete(file);
+        }
         setCsvUploaded(false);
     }
 

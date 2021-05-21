@@ -72,10 +72,19 @@ const routes = (app) => {
   });
 
   router.post("/league", (req, res) => {
-    League
-      .updateOne({ Name: req.body.Name }, { ...req.body }, { upsert: true })
-        .then((leagues) => {
-        serverResponses.sendSuccess(res, messages.SUCCESSFUL, leagues);
+    console.log(req.body);
+
+    const league = new League({ 
+      Name: req.body.Name,
+      CreateDate: req.body.CreateDate,
+      Active: req.body.Active
+    });
+    console.log(league);
+
+    league
+      .save()
+      .then((league) => {
+        serverResponses.sendSuccess(res, messages.SUCCESSFUL, league);
       })
       .catch((e) => {
         serverResponses.sendError(res, messages.BAD_REQUEST, e);
