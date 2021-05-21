@@ -1,10 +1,14 @@
 const mongoose = require('mongoose');
 
+const ratingsSchema = new mongoose.Schema({
+
+}, { strict: false });
+
 const playerSchema = new mongoose.Schema({
     Player_ID: {
         type: Number,
-        trim: true,
-        required: true,
+        required: [true, "Player_ID is required."],
+        index: true
     },
     Interviewed: { 
         type: Boolean
@@ -56,12 +60,11 @@ const playerSchema = new mongoose.Schema({
     },
     Grade: {
         type: Number
+    },
+    Ratings: {
+        type: [ratingsSchema]
     }
 }, { strict: false });
-
-// TODO: Figure out indexes
-// draftSchema.index({Low_Screen_Passes: 1, Low_Short_Passes: 1});
-// draftSchema.indexes();
 
 const Player = mongoose.model('Player', playerSchema);
 
