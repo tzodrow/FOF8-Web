@@ -69,7 +69,6 @@ export const createLeague = (league: ILeague, setLeague?: (league: ILeague) => v
       if (setLeague) {
         setLeague(res.data.data);
       }
-      console.log(res);
     })
     .catch(e => {
       console.error(e);
@@ -91,7 +90,6 @@ export const upsertFileHistory = (fileHistory: IFileHistory) => {
   myAxiosInstance
     .put("/api/fileHistory", fileHistory)
     .then(res => {
-      console.log(res);
     })
     .catch(e => {
       console.error(e);
@@ -102,7 +100,6 @@ export const completeFileHistory = (fileHistory: IFileHistory) => {
   myAxiosInstance
     .put("/api/fileHistory/complete", fileHistory)
     .then(res => {
-      console.log(res);
     })
     .catch(e => {
       console.error(e);
