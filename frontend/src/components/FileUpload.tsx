@@ -5,6 +5,8 @@ import { CSVReader } from "react-papaparse";
 import { upsertRating, upsertRecord } from "../api/axiosApi";
 import { IRecord } from "../models/record";
 
+import "./FileUpload.scss";
+
 interface CSVInputRef {
     state: {
         file: File
@@ -13,23 +15,26 @@ interface CSVInputRef {
 
 interface IFileUploadProps {
     leagueId: string;
+    pointerDisabled?: boolean;
     title: string;
     onUpload?: (file: File) => void;
     onComplete?: (file: File) => void;
 }
 
-const getFile = (ref: React.MutableRefObject<null>) => {
-    return (ref.current as unknown as CSVInputRef)?.state?.file;
-}
+
 
 export function FileUpload(props: IFileUploadProps) {
-    const csvInput = useRef(null);
+    const csvReaderRef = useRef(null);
     const [csvUploaded, setCsvUploaded] = useState(false);
     const [dataUploaded, setDataUploaded] = useState(0);
     const [fileSize, setFileSize] = useState(0);
 
+    const getFile = () => {
+        return (csvReaderRef.current as unknown as CSVInputRef)?.state?.file;
+    }
+
     useEffect(() => {
-        const csvFile = getFile(csvInput);
+        const csvFile = getFile();
         
         if (csvFile !== undefined && csvUploaded) {
             setDataUploaded(0);
@@ -76,7 +81,7 @@ export function FileUpload(props: IFileUploadProps) {
     }
 
     const onComplete = (results: ParseResult<any>) => {
-        const file = getFile(csvInput);
+        const file = getFile();
         if (props.onComplete) {
             props.onComplete(file);
         }
@@ -91,11 +96,11 @@ export function FileUpload(props: IFileUploadProps) {
     let value = fileSize > 0 ? (dataUploaded / fileSize) * 100 : 0;
 
     return (
-        <div className={""}>
+        <div className={props.pointerDisabled ? "pointer-disabled" : ""}>
             <h1>{props.title}</h1>
             <LinearProgress variant="determinate" value={value} />
             <CSVReader
-                ref={csvInput}
+                ref={csvReaderRef}
                 onError={handleOnError}
                 config={{
                     dynamicTyping: true,
@@ -107,8 +112,6 @@ export function FileUpload(props: IFileUploadProps) {
                 }}
                 addRemoveButton
                 onRemoveFile={handleOnRemoveFile}
-                noDrag={csvUploaded || props.leagueId !== ''}
-                noClick={csvUploaded || props.leagueId !== ''}
             >
                 <span>Drop CSV file here or click to upload.</span>
             </CSVReader>
