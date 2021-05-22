@@ -9,6 +9,7 @@ const routes = (app) => {
   const router = express.Router();
 
   router.get("/player", (req, res) => {
+    console.log(req.query);
     Player.findOne({})
       .then((draftProfiles) => {
         serverResponses.sendSuccess(res, messages.SUCCESSFUL, draftProfiles)
@@ -19,8 +20,8 @@ const routes = (app) => {
   });
 
   router.put("/player/upsert", (req, res) => {
-    if (!req.body.Player_ID) {
-      serverResponses.sendError(res, messages.BAD_REQUEST, "Missing Player_ID.");
+    if (!req.body.Player_ID || !req.body.LeagueId) {
+      serverResponses.sendError(res, messages.BAD_REQUEST, "Missing LeagueId or Player_ID.");
     } else {
       Player
         .updateOne({ Player_ID: req.body.Player_ID }, { ...req.body }, { upsert: true })
@@ -34,8 +35,8 @@ const routes = (app) => {
   });
 
   router.put("/player/upsertRating", (req, res) => {
-    if (!req.body.Player_ID) {
-      serverResponses.sendError(res, messages.BAD_REQUEST, "Missing Player_ID.");
+    if (!req.body.Player_ID || !req.body.LeagueId) {
+      serverResponses.sendError(res, messages.BAD_REQUEST, "Missing LeagueId or Player_ID.");
     } else {
       Player
         .updateOne(
@@ -72,14 +73,11 @@ const routes = (app) => {
   });
 
   router.post("/league", (req, res) => {
-    console.log(req.body);
-
-    const league = new League({ 
+    const league = new League({
       Name: req.body.Name,
       CreateDate: req.body.CreateDate,
       Active: req.body.Active
     });
-    console.log(league);
 
     league
       .save()
@@ -92,18 +90,24 @@ const routes = (app) => {
   });
 
   router.get("/fileHistory", (req, res) => {
-    FileHistory.find({})
-      .then((fhs) => {
-        serverResponses.sendSuccess(res, messages.SUCCESSFUL, fhs);
-      })
-      .catch((e) => {
-        serverResponses.sendError(res, messages.BAD_REQUEST, e);
-      });
+    console.log(req.query);
+    // TODO: May not be in the body
+    if (!req.query.LeagueId) {
+      serverResponses.sendError(res, messages.BAD_REQUEST, "Missing LeagueId.");
+    } else {
+      FileHistory.find({ LeagueId: req.query.LeagueId })
+        .then((fhs) => {
+          serverResponses.sendSuccess(res, messages.SUCCESSFUL, fhs);
+        })
+        .catch((e) => {
+          serverResponses.sendError(res, messages.BAD_REQUEST, e);
+        });
+    }
   });
 
   router.put("/fileHistory", (req, res) => {
-    if (!req.body.Name) {
-      serverResponses.sendError(res, messages.BAD_REQUEST, "Missing Name.");
+    if (!req.body.Name || !req.body.LeagueId) {
+      serverResponses.sendError(res, messages.BAD_REQUEST, "Missing LeagueId or Name.");
     } else {
       FileHistory
         .updateOne({ Name: req.body.Name, LeagueId: req.body.LeagueId }, { ...req.body }, { upsert: true })
@@ -117,11 +121,11 @@ const routes = (app) => {
   });
 
   router.put("/fileHistory/complete", (req, res) => {
-    if (!req.body.Name) {
-      serverResponses.sendError(res, messages.BAD_REQUEST, "Missing Name.");
+    if (!req.body.Name || !req.body.LeagueId) {
+      serverResponses.sendError(res, messages.BAD_REQUEST, "Missing LeagueId or Name.");
     } else {
       FileHistory
-        .updateOne({ Name: req.body.Name, LeagueId: req.body.LeagueId }, { $set: { Completed: true }  })
+        .updateOne({ Name: req.body.Name, LeagueId: req.body.LeagueId }, { $set: { Completed: true } })
         .then((result) => {
           serverResponses.sendSuccess(res, messages.SUCCESSFUL, result);
         })

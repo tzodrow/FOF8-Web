@@ -10,7 +10,9 @@ const fileHistorySchema = new mongoose.Schema({
     Completed: {
         type: Boolean
     },
-    LeagueId: mongoose.ObjectId
+    LeagueId: {
+        type: mongoose.ObjectId
+    }
 });
 
 const FileHistory = mongoose.model('FileHistory', fileHistorySchema);

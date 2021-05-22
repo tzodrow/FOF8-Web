@@ -12,6 +12,7 @@ interface CSVInputRef {
 }
 
 interface IFileUploadProps {
+    leagueId: string;
     title: string;
     onUpload?: (file: File) => void;
     onComplete?: (file: File) => void;
@@ -56,7 +57,7 @@ export function FileUpload(props: IFileUploadProps) {
             // TODO: Add better way to determine the files being sent in
             if (result.meta.fields?.some(f => f === "Scouting")) {
                 upsertRating(
-                    result.data,
+                    { ...result.data, LeagueId: props.leagueId },
                     () => {
                         setDataUploaded((prev) => prev + result.meta.cursor);
                         parser.resume();
@@ -64,7 +65,7 @@ export function FileUpload(props: IFileUploadProps) {
                     () => parser.abort());
             } else {
                 upsertRecord(
-                    result.data,
+                    { ...result.data, LeagueId: props.leagueId },
                     () => {
                         setDataUploaded((prev) => prev + result.meta.cursor);
                         parser.resume();
@@ -106,8 +107,8 @@ export function FileUpload(props: IFileUploadProps) {
                 }}
                 addRemoveButton
                 onRemoveFile={handleOnRemoveFile}
-                noDrag={csvUploaded}
-                noClick={csvUploaded}
+                noDrag={csvUploaded || props.leagueId !== ''}
+                noClick={csvUploaded || props.leagueId !== ''}
             >
                 <span>Drop CSV file here or click to upload.</span>
             </CSVReader>

@@ -62,10 +62,13 @@ export const getLeagues = (setLeagues: (leagues: Array<ILeague>) => void) => {
     });
 }
 
-export const createLeague = (league: ILeague) => {
+export const createLeague = (league: ILeague, setLeague?: (league: ILeague) => void) => {
   myAxiosInstance
     .post("/api/league", league)
     .then(res => {
+      if (setLeague) {
+        setLeague(res.data.data);
+      }
       console.log(res);
     })
     .catch(e => {
@@ -73,9 +76,9 @@ export const createLeague = (league: ILeague) => {
     })
 }
 
-export const getFileHistories = (setFileHistories: (fileHistories: Array<IFileHistory>) => void) => {
+export const getFileHistories = (leagueId: string, setFileHistories: (fileHistories: Array<IFileHistory>) => void) => {
   myAxiosInstance
-    .get("/api/fileHistory")
+    .get(`/api/fileHistory?LeagueId=${leagueId}`)
     .then(res => {
       setFileHistories(res.data.data);
     })
