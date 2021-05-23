@@ -51,6 +51,17 @@ export const upsertRating = (record: IRecord | Array<IRecord>, successCallback?:
     });
 }
 
+export const getPlayers = (leagueId: string, setPlayers: (players: Array<IRecord>) => void) => {
+  myAxiosInstance
+    .get(`/api/player?LeagueId=${leagueId}`)
+    .then(res => {
+      setPlayers(res.data.data);
+    })
+    .catch(e => {
+      console.error(e);
+    });
+}
+
 export const getLeagues = (setLeagues: (leagues: Array<ILeague>) => void) => {
   myAxiosInstance
     .get("/api/league")

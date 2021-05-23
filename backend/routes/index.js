@@ -9,14 +9,17 @@ const routes = (app) => {
   const router = express.Router();
 
   router.get("/player", (req, res) => {
-    console.log(req.query);
-    Player.findOne({})
-      .then((draftProfiles) => {
-        serverResponses.sendSuccess(res, messages.SUCCESSFUL, draftProfiles)
-      })
-      .catch((e) => {
-        serverResponses.sendError(res, messages.BAD_REQUEST, e);
-      });
+    if (!req.query.LeagueId) {
+      serverResponses.sendError(res, messages.BAD_REQUEST, "Missing LeagueId.");
+    } else {
+      Player.find({ LeagueId: req.query.LeagueId })
+        .then((fhs) => {
+          serverResponses.sendSuccess(res, messages.SUCCESSFUL, fhs);
+        })
+        .catch((e) => {
+          serverResponses.sendError(res, messages.BAD_REQUEST, e);
+        });
+    }
   });
 
   router.put("/player/upsert", (req, res) => {
@@ -24,7 +27,7 @@ const routes = (app) => {
       serverResponses.sendError(res, messages.BAD_REQUEST, "Missing LeagueId or Player_ID.");
     } else {
       Player
-        .updateOne({ Player_ID: req.body.Player_ID }, { ...req.body }, { upsert: true })
+        .updateOne({ Player_ID: req.body.Player_ID, LeagueId: req.body.LeagueId }, { ...req.body }, { upsert: true })
         .then((result) => {
           serverResponses.sendSuccess(res, messages.SUCCESSFUL, result);
         })
@@ -40,13 +43,13 @@ const routes = (app) => {
     } else {
       Player
         .updateOne(
-          { Player_ID: req.body.Player_ID },
-          { $pull: { Ratings: { Year: req.body.Year, Player_ID: req.body.Player_ID, Scouting: req.body.Scouting } } },
+          { Player_ID: req.body.Player_ID, LeagueId: req.body.LeagueId },
+          { $pull: { Ratings: { Year: req.body.Year, Player_ID: req.body.Player_ID, LeagueId: req.body.LeagueId, Scouting: req.body.Scouting } } },
           { upsert: true })
         .then((result) => {
           Player
             .updateOne(
-              { Player_ID: req.body.Player_ID },
+              { Player_ID: req.body.Player_ID, LeagueId: req.body.LeagueId },
               { $push: { Ratings: { ...req.body } } },
               { upsert: true })
             .then((result) => {
@@ -90,8 +93,6 @@ const routes = (app) => {
   });
 
   router.get("/fileHistory", (req, res) => {
-    console.log(req.query);
-    // TODO: May not be in the body
     if (!req.query.LeagueId) {
       serverResponses.sendError(res, messages.BAD_REQUEST, "Missing LeagueId.");
     } else {

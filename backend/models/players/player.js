@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const ratingsSchema = new mongoose.Schema({
 
-});
+}, { strict: false });
 
 const playerSchema = new mongoose.Schema({
     Player_ID: {
@@ -16,7 +16,7 @@ const playerSchema = new mongoose.Schema({
     Ratings: {
         type: [ratingsSchema]
     }
-});
+}, { strict: false });
 
 const Player = mongoose.model('Player', playerSchema);
 
