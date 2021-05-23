@@ -10,56 +10,8 @@ const playerSchema = new mongoose.Schema({
         required: [true, "Player_ID is required."],
         index: true
     },
-    Interviewed: { 
-        type: Boolean
-    },
-    Low_Screen_Passes: {
-        type: Number
-    },
-    Low_Short_Passes: {
-        type: Number
-    },
-    First_Name: { 
-        type: String
-    },
-    Last_Name: {
-        type: String
-    },
-    Position_Group: {
-        type: String
-    },	
-    College: {
-        type: String
-    },
-    Height: {
-        type: Number
-    },
-    Weight: {
-        type: Number
-    },	
-    Dash: {
-        type: Number
-    },	
-    Solecismic: {
-        type: Number
-    },
-    Strength: {
-        type: Number
-    },
-    Agility: {
-        type: Number
-    },
-    Jump: {
-        type: Number
-    },
-    Position_Specific: {
-        type: Number
-    },
-    Developed: {
-        type: Number
-    },
-    Grade: {
-        type: Number
+    LeagueId: {
+        type: mongoose.ObjectId
     },
     Ratings: {
         type: [ratingsSchema]

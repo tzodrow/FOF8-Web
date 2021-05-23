@@ -1,6 +1,8 @@
 import * as rax from 'retry-axios';
 import axios, { AxiosResponse } from "axios";
 import { IRecord } from '../models/record';
+import { ILeague } from '../models/league';
+import { IFileHistory } from '../models/fileHistory';
 
 const myAxiosInstance = axios.create();
 myAxiosInstance.defaults.raxConfig = {
@@ -46,5 +48,71 @@ export const upsertRating = (record: IRecord | Array<IRecord>, successCallback?:
       if (failureCallback) {
         failureCallback();
       }
+    });
+}
+
+export const getPlayers = (leagueId: string, setPlayers: (players: Array<IRecord>) => void) => {
+  myAxiosInstance
+    .get(`/api/player?LeagueId=${leagueId}`)
+    .then(res => {
+      setPlayers(res.data.data);
+    })
+    .catch(e => {
+      console.error(e);
+    });
+}
+
+export const getLeagues = (setLeagues: (leagues: Array<ILeague>) => void) => {
+  myAxiosInstance
+    .get("/api/league")
+    .then(res => {
+      setLeagues(res.data.data);
+    })
+    .catch(e => {
+      console.error(e);
+    });
+}
+
+export const createLeague = (league: ILeague, setLeague?: (league: ILeague) => void) => {
+  myAxiosInstance
+    .post("/api/league", league)
+    .then(res => {
+      if (setLeague) {
+        setLeague(res.data.data);
+      }
+    })
+    .catch(e => {
+      console.error(e);
+    })
+}
+
+export const getFileHistories = (leagueId: string, setFileHistories: (fileHistories: Array<IFileHistory>) => void) => {
+  myAxiosInstance
+    .get(`/api/fileHistory?LeagueId=${leagueId}`)
+    .then(res => {
+      setFileHistories(res.data.data);
+    })
+    .catch(e => {
+      console.error(e);
+    });
+}
+
+export const upsertFileHistory = (fileHistory: IFileHistory) => {
+  myAxiosInstance
+    .put("/api/fileHistory", fileHistory)
+    .then(res => {
+    })
+    .catch(e => {
+      console.error(e);
+    });
+}
+
+export const completeFileHistory = (fileHistory: IFileHistory) => {
+  myAxiosInstance
+    .put("/api/fileHistory/complete", fileHistory)
+    .then(res => {
+    })
+    .catch(e => {
+      console.error(e);
     });
 }

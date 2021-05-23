@@ -7,13 +7,13 @@ import { store, history } from './reducers/store';
 import { App } from './App';
 
 ReactDOM.render(
-    <React.StrictMode>
+    <React.Fragment>
         <Provider store={store}>
             <ConnectedRouter history={history}>
                 <App
                 />
             </ConnectedRouter>
         </Provider>
-    </React.StrictMode>,
+    </React.Fragment>,
     document.getElementById('root')
 );
