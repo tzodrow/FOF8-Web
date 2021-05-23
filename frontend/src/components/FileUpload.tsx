@@ -21,8 +21,6 @@ interface IFileUploadProps {
     onComplete?: (file: File) => void;
 }
 
-
-
 export function FileUpload(props: IFileUploadProps) {
     const csvReaderRef = useRef(null);
     const [csvUploaded, setCsvUploaded] = useState(false);
@@ -39,9 +37,6 @@ export function FileUpload(props: IFileUploadProps) {
         if (csvFile !== undefined && csvUploaded) {
             setDataUploaded(0);
             setFileSize(csvFile?.size);
-            if (props.onUpload) {
-                props.onUpload(csvFile);
-            }
         }
     }, [csvUploaded]);
 
@@ -89,7 +84,10 @@ export function FileUpload(props: IFileUploadProps) {
     }
 
     const onBeforeFirstChunk = (chunk: string) => {
-        // TODO: Add verification?
+        const file = getFile();
+        if (props.onUpload) {
+            props.onUpload(file);
+        }
         setCsvUploaded(true);
     }
 
