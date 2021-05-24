@@ -26,13 +26,12 @@ const routes = (app) => {
     }
   });
 
-  router.get("/draft/players/:DraftYear", (req, res) => {
-    console.log(req.params);
+  router.get("/draft/players/:draftYear", (req, res) => {
     if (!req.query.LeagueId) {
       serverResponses.sendError(res, messages.BAD_REQUEST, "Missing LeagueId.");
     } else {
       const skip = req.query.Skip && !isNaN(req.query.Skip) ? parseInt(req.query.Skip) : 0;
-      Player.find({ LeagueId: req.query.LeagueId }, undefined, { limit: playerResultLimit, skip: skip * playerResultLimit, sort: { Player_ID: 1 } })
+      Player.find({ LeagueId: req.query.LeagueId, Season_1_Year: req.params.draftYear }, undefined, { limit: playerResultLimit, skip: skip * playerResultLimit, sort: { Player_ID: 1 } })
         .then((fhs) => {
           serverResponses.sendSuccess(res, messages.SUCCESSFUL, fhs);
         })

@@ -1,6 +1,6 @@
 import { Button, ButtonGroup, MenuItem, Select } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { getDraftYears, getLeagues, getPlayers } from "../api/axiosApi";
+import { getDraftPlayers, getDraftYears, getLeagues, getPlayers } from "../api/axiosApi";
 import { DraftTable } from "../components/DraftTable";
 import { PlayerTable } from "../components/PlayerTable";
 import { ILeague } from "../models/league";
@@ -14,6 +14,7 @@ export function GetPlayerPage() {
     const [draftYears, setDraftYears] = useState<Array<number>>([]);
 
     const [players, setPlayers] = useState<Array<IPlayerInformation>>([]);
+    const [draftPlayers, setDraftPlayers] = useState<Array<IDraftPlayer>>([]);
     const [skip, setSkip] = useState(0);
 
     useEffect(() => {
@@ -31,6 +32,12 @@ export function GetPlayerPage() {
             getPlayers(league, skip, setPlayers);
         }
     }, [league, skip]);
+
+    useEffect(() => {
+        if (league !== '') {
+            getDraftPlayers(league, skip, draftYear, setDraftPlayers);
+        }
+    }, [league, skip, draftYear]);
 
     const onChangeLeague = (event: React.ChangeEvent<{ name?: string, value: unknown }>) => {
         setLeague(event.target.value as string);
@@ -68,7 +75,7 @@ export function GetPlayerPage() {
                 players={players}
             />
             <DraftTable 
-                players={players as unknown as Array<IDraftPlayer>}
+                players={draftPlayers}
             />
         </div>
     );

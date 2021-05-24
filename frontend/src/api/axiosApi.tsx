@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from "axios";
 import { IRecord } from '../models/record';
 import { ILeague } from '../models/league';
 import { IFileHistory } from '../models/fileHistory';
-import { IPlayerInformation } from '../models/player';
+import { IDraftPlayer, IPlayerInformation } from '../models/player';
 
 const myAxiosInstance = axios.create();
 myAxiosInstance.defaults.raxConfig = {
@@ -128,3 +128,16 @@ export const getDraftYears = (leagueId: string, setDraftYears: (draftYears: Arra
       console.error(e);
     });
 }
+
+export const getDraftPlayers = (leagueId: string, skip: number, draftYear: number, setPlayers: (players: Array<IDraftPlayer>) => void) => {
+  myAxiosInstance
+    .get(`/api/draft/players/${draftYear}?LeagueId=${leagueId}&Skip=${skip}`)
+    .then(res => {
+      setPlayers(res.data.data);
+    })
+    .catch(e => {
+      console.error(e);
+    });
+}
+
+
