@@ -5,6 +5,8 @@ const { Player } = require("../models/players/player");
 const { League } = require("../models/league/league");
 const { FileHistory } = require("../models/fileHistory/fileHistory.js");
 
+const playerResultLimit = 25;
+
 const routes = (app) => {
   const router = express.Router();
 
@@ -12,11 +14,13 @@ const routes = (app) => {
     if (!req.query.LeagueId) {
       serverResponses.sendError(res, messages.BAD_REQUEST, "Missing LeagueId.");
     } else {
-      Player.find({ LeagueId: req.query.LeagueId })
+      const skip = req.query.Skip && !isNaN(req.query.Skip) ? parseInt(req.query.Skip) : 0;
+      Player.find({ LeagueId: req.query.LeagueId }, undefined, { limit: playerResultLimit, skip: skip * playerResultLimit, sort: { Player_ID: 1 } })
         .then((fhs) => {
           serverResponses.sendSuccess(res, messages.SUCCESSFUL, fhs);
         })
         .catch((e) => {
+          console.log(e);
           serverResponses.sendError(res, messages.BAD_REQUEST, e);
         });
     }

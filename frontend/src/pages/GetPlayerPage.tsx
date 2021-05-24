@@ -1,13 +1,15 @@
-import { List, ListItem, ListItemText, MenuItem, Select } from "@material-ui/core";
+import { Button, ButtonGroup, MenuItem, Select } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { getLeagues, getPlayers } from "../api/axiosApi";
+import { PlayerTable } from "../components/PlayerTable";
 import { ILeague } from "../models/league";
-import { IRecord } from "../models/record";
+import { IPlayerInformation } from "../models/player";
 
 export function GetPlayerPage() {
     const [league, setLeague] = useState('');
     const [leagues, setLeagues] = useState<Array<ILeague>>([]);
-    const [players, setPlayers] = useState<Array<IRecord>>([]);
+    const [players, setPlayers] = useState<Array<IPlayerInformation>>([]);
+    const [skip, setSkip] = useState(0);
 
     useEffect(() => {
         getLeagues(setLeagues);
@@ -15,9 +17,9 @@ export function GetPlayerPage() {
 
     useEffect(() => {
         if (league !== '') {
-            getPlayers(league, setPlayers);
+            getPlayers(league, skip, setPlayers);
         }
-    }, [league]);
+    }, [league, skip]);
 
     const onChangeLeague = (event: React.ChangeEvent<{ name?: string, value: unknown }>) => {
         setLeague(event.target.value as string);
@@ -34,15 +36,13 @@ export function GetPlayerPage() {
             >
                 {leagues.map((l, index) => <MenuItem key={index} value={l._id}>{l.Name}</MenuItem>)}
             </Select>
-            <List>
-                {players.map(p => {
-                    return (
-                        <ListItem key={p.Player_ID}>
-                            <ListItemText primary={`${p.Player_ID} - ${p.LeagueId}`} />
-                        </ListItem>
-                    );
-                })}
-            </List>
+            <ButtonGroup color="primary">
+                <Button disabled={skip === 0} onClick={() => setSkip(prev => prev - 1)}>Previous</Button>
+                <Button onClick={() => setSkip(prev => prev + 1)}>Next</Button>
+            </ButtonGroup>
+            <PlayerTable 
+                players={players}
+            />
         </div>
     );
 }
