@@ -18,6 +18,7 @@ export interface IDraftPlayer extends IPlayer {
     Position_Specific: number;
     Solecismic: number;
     Strength: number;
+    Developed: number;
 }
 
 export interface IPlayerInformation extends IPlayer {

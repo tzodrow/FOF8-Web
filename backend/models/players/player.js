@@ -13,6 +13,9 @@ const playerSchema = new mongoose.Schema({
     LeagueId: {
         type: mongoose.ObjectId
     },
+    Season_1_Year : {
+        type: Number
+    },
     Ratings: {
         type: [ratingsSchema]
     }

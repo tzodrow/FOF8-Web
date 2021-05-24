@@ -117,3 +117,14 @@ export const completeFileHistory = (fileHistory: IFileHistory) => {
       console.error(e);
     });
 }
+
+export const getDraftYears = (leagueId: string, setDraftYears: (draftYears: Array<number>) => void) => {
+  myAxiosInstance
+    .get(`/api/draft/years?LeagueId=${leagueId}`)
+    .then(res => {
+      setDraftYears(res.data.data);
+    })
+    .catch(e => {
+      console.error(e);
+    });
+}
