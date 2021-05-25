@@ -1,81 +1,31 @@
-import { Button, ButtonGroup, MenuItem, Select } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import { getDraftPlayers, getDraftYears, getLeagues, getPlayers } from "../api/axiosApi";
-import { DraftTable } from "../components/DraftTable";
+import { Button, ButtonGroup } from "@material-ui/core";
+import { useEffect, useState } from "react";
+import { getPlayers } from "../api/axiosApi";
 import { PlayerTable } from "../components/PlayerTable";
 import { ILeague } from "../models/league";
-import { IDraftPlayer, IPlayerInformation } from "../models/player";
+import { IPlayerInformation } from "../models/player";
+import { useAppSelector } from "../reducers/hooks";
 
 export function GetPlayerPage() {
-    const [league, setLeague] = useState('');
-    const [leagues, setLeagues] = useState<Array<ILeague>>([]);
-
-    const [draftYear, setDraftYear] = useState(0);
-    const [draftYears, setDraftYears] = useState<Array<number>>([]);
+    const league: ILeague | undefined = useAppSelector(state => state.league.league);
 
     const [players, setPlayers] = useState<Array<IPlayerInformation>>([]);
-    const [draftPlayers, setDraftPlayers] = useState<Array<IDraftPlayer>>([]);
     const [skip, setSkip] = useState(0);
 
     useEffect(() => {
-        getLeagues(setLeagues);
-    }, []);
-
-    useEffect(() => {
-        if (league !== '') {
-            getDraftYears(league, setDraftYears);
-        }
-    }, [league])
-
-    useEffect(() => {
-        if (league !== '') {
-            getPlayers(league, skip, setPlayers);
+        if (league?._id) {
+            getPlayers(league._id, skip, setPlayers);
         }
     }, [league, skip]);
 
-    useEffect(() => {
-        if (league !== '') {
-            getDraftPlayers(league, skip, draftYear, setDraftPlayers);
-        }
-    }, [league, skip, draftYear]);
-
-    const onChangeLeague = (event: React.ChangeEvent<{ name?: string, value: unknown }>) => {
-        setLeague(event.target.value as string);
-    };
-
-    const onChangeDraftYear = (event: React.ChangeEvent<{ name?: string, value: unknown }>) => {
-        setDraftYear(event.target.value as number);
-    };
-
     return (
         <div>
-            <Select
-                label={"League"}
-                labelId={"league-select-label"}
-                id={"league-select"}
-                value={league}
-                onChange={onChangeLeague}
-            >
-                {leagues.map((l, index) => <MenuItem key={index} value={l._id}>{l.Name}</MenuItem>)}
-            </Select>
-            <Select
-                label={"Draft Year"}
-                labelId={"draft-year-select-label"}
-                id={"draft-year-select"}
-                value={draftYear}
-                onChange={onChangeDraftYear}
-            >
-                {draftYears.map((dy, index) => <MenuItem key={index} value={dy}>{dy}</MenuItem>)}
-            </Select>
             <ButtonGroup color="primary">
                 <Button disabled={skip === 0} onClick={() => setSkip(prev => prev - 1)}>Previous</Button>
                 <Button onClick={() => setSkip(prev => prev + 1)}>Next</Button>
             </ButtonGroup>
             <PlayerTable 
                 players={players}
-            />
-            <DraftTable 
-                players={draftPlayers}
             />
         </div>
     );

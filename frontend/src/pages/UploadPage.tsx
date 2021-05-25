@@ -4,21 +4,17 @@ import { completeFileHistory, getFileHistories, getLeagues, upsertFileHistory } 
 import { FileUpload } from "../components/FileUpload";
 import { IFileHistory } from "../models/fileHistory";
 import { ILeague } from "../models/league";
+import { useAppSelector } from "../reducers/hooks";
 
 import "./UploadPage.scss";
 
 export function UploadPage() {
-    const [league, setLeague] = useState('');
-    const [leagues, setLeagues] = useState<Array<ILeague>>([]);
+    const league: ILeague | undefined = useAppSelector(state => state.league.league);
     const [fileHistories, setFileHistories] = useState<Array<IFileHistory>>([]);
 
     useEffect(() => {
-        getLeagues(setLeagues);
-    }, []);
-
-    useEffect(() => {
-        if (league !== '') {
-            getFileHistories(league, setFileHistories);
+        if (league?._id) {
+            getFileHistories(league._id, setFileHistories);
         }
     }, [league]);
 
@@ -36,45 +32,30 @@ export function UploadPage() {
     }
 
     const onFileUpload = (file: File) => {
-        const fileHistory: IFileHistory = { LeagueId: league, Name: file.name, UploadDate: new Date(), Completed: false };
+        const fileHistory: IFileHistory = { LeagueId: league?._id ? league._id : "", Name: file.name, UploadDate: new Date(), Completed: false };
         addFileHistory(fileHistory);
         upsertFileHistory(fileHistory);
     }
 
     const onFileComplete = (file: File) => {
-        const fileHistory: IFileHistory = { LeagueId: league, Name: file.name, UploadDate: new Date(), Completed: true };
+        const fileHistory: IFileHistory = { LeagueId: league?._id ? league._id : "", Name: file.name, UploadDate: new Date(), Completed: true };
         addFileHistory(fileHistory);
         completeFileHistory(fileHistory);
     }
 
-    const onChangeLeague = (event: React.ChangeEvent<{ name?: string, value: unknown }>) => {
-        setLeague(event.target.value as string);
-    };
-
     return (
         <div className={"upload"}>
-            <div className={"header"}>
-                <Select
-                    label={"League"}
-                    labelId={"demo-simple-select-label"}
-                    id={"demo-simple-select"}
-                    value={league}
-                    onChange={onChangeLeague}
-                >
-                    {leagues.map((l, index) => <MenuItem key={index} value={l._id}>{l.Name}</MenuItem>)}
-                </Select>
-            </div>
             <div className={"body"}>
                 <div>
                     <FileUpload
-                        leagueId={league}
-                        pointerDisabled={league === ""}
+                        leagueId={league?._id ? league._id : ""}
+                        pointerDisabled={league?._id === undefined || league?._id === ""}
                         title={"Upload 1"}
                         onUpload={onFileUpload}
                         onComplete={onFileComplete} />
                     <FileUpload
-                        leagueId={league}
-                        pointerDisabled={league === ""}
+                        leagueId={league?._id ? league._id : ""}
+                        pointerDisabled={league?._id === undefined || league?._id === ""}
                         title={"Upload 2"}
                         onUpload={onFileUpload}
                         onComplete={onFileComplete}

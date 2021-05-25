@@ -1,6 +1,6 @@
 import { LinearProgress } from "@material-ui/core";
 import { ParseResult, Parser } from "papaparse";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CSVReader } from "react-papaparse";
 import { upsertRating, upsertRecord } from "../api/axiosApi";
 import { IRecord } from "../models/record";

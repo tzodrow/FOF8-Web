@@ -63,6 +63,9 @@ export default function LeftNav() {
                 <ListItem button onClick={() => history.push("/players")}>
                     <ListItemText primary={"Get Players"} />
                 </ListItem>
+                <ListItem button onClick={() => history.push("/draft")}>
+                    <ListItemText primary={"Draft"} />
+                </ListItem>
             </List>
         </Drawer>
     );
