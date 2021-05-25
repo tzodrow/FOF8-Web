@@ -6,6 +6,8 @@ import { ILeague } from "../models/league";
 import { IDraftPlayer } from "../models/player";
 import { useAppSelector } from "../reducers/hooks";
 
+import './DraftPage.scss';
+
 const useStyles = makeStyles((theme) => ({
     formControl: {
         margin: theme.spacing(1),
@@ -75,21 +77,23 @@ export function DraftPage() {
 
     return (
         <div>
-            <FormControl className={classes.formControl}>
-                <InputLabel id={"draft-year-select-label"}>Draft Year</InputLabel>
-                <Select
-                    labelId={"draft-year-select-label"}
-                    id={"draft-year-select"}
-                    value={draftYear}
-                    onChange={onChangeDraftYear}
-                >
-                    {draftYears.map((dy, index) => <MenuItem key={index} value={dy}>{dy}</MenuItem>)}
-                </Select>
-            </FormControl>
-            <ButtonGroup color="primary">
-                <Button disabled={skip === 0} onClick={() => setSkip(prev => prev - 1)}>Previous</Button>
-                <Button onClick={() => setSkip(prev => prev + 1)}>Next</Button>
-            </ButtonGroup>
+            <div className={"draft-header"}>
+                <FormControl className={classes.formControl}>
+                    <InputLabel id={"draft-year-select-label"}>Draft Year</InputLabel>
+                    <Select
+                        labelId={"draft-year-select-label"}
+                        id={"draft-year-select"}
+                        value={draftYear}
+                        onChange={onChangeDraftYear}
+                    >
+                        {draftYears.map((dy, index) => <MenuItem key={index} value={dy}>{dy}</MenuItem>)}
+                    </Select>
+                </FormControl>
+                <ButtonGroup color="primary">
+                    <Button disabled={skip === 0} onClick={() => setSkip(prev => prev - 1)}>Previous</Button>
+                    <Button onClick={() => setSkip(prev => prev + 1)}>Next</Button>
+                </ButtonGroup>
+            </div>
             <Tabs
                 value={tab}
                 onChange={onChangeTab}

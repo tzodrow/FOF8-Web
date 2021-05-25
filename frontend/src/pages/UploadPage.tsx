@@ -62,6 +62,7 @@ export function UploadPage() {
                     />
                 </div>
                 <div>
+                    <h1>File History</h1>
                     <List>
                         {fileHistories.map((fh, index) => {
                             const date = new Date(fh.UploadDate);
