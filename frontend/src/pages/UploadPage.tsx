@@ -1,6 +1,6 @@
-import { List, ListItem, ListItemText, MenuItem, Select } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import { completeFileHistory, getFileHistories, getLeagues, upsertFileHistory } from "../api/axiosApi";
+import { List, ListItem, ListItemText } from "@material-ui/core";
+import { useEffect, useState } from "react";
+import { completeFileHistory, getFileHistories, upsertFileHistory } from "../api/axiosApi";
 import { FileUpload } from "../components/FileUpload";
 import { IFileHistory } from "../models/fileHistory";
 import { ILeague } from "../models/league";

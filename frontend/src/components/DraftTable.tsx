@@ -35,7 +35,7 @@ export function DraftTable(props: IDraftTableProps) {
             <TableCell align="right">Strength</TableCell>
             <TableCell align="right">Agility</TableCell>
             <TableCell align="right">Jump</TableCell>
-            <TableCell align="right">Position Specific</TableCell>
+            <TableCell align="right">Pos Spec</TableCell>
             <TableCell align="right">Developed</TableCell>
             <TableCell align="right">Grade</TableCell>
           </TableRow>

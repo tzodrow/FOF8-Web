@@ -2,6 +2,7 @@ import { Box, Button, ButtonGroup, FormControl, InputLabel, makeStyles, MenuItem
 import React, { useEffect, useState } from "react";
 import { getDraftPlayers, getDraftYears } from "../api/axiosApi";
 import { DraftTable } from "../components/DraftTable";
+import { ScoutingTable } from "../components/ScoutingTable";
 import { ILeague } from "../models/league";
 import { IDraftPlayer } from "../models/player";
 import { useAppSelector } from "../reducers/hooks";
@@ -115,7 +116,9 @@ export function DraftPage() {
                 />
             </TabPanel>
             <TabPanel value={tab} index={2}>
-                Scouting Bars
+                <ScoutingTable 
+                    players={draftPlayers}
+                />
             </TabPanel>
             <TabPanel value={tab} index={3}>
                 Analysis
