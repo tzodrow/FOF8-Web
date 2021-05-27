@@ -129,9 +129,9 @@ export const getDraftYears = (leagueId: string, setDraftYears: (draftYears: Arra
     });
 }
 
-export const getDraftPlayers = (leagueId: string, skip: number, draftYear: number, setPlayers: (players: Array<IDraftPlayer>) => void) => {
+export const getDraftPlayers = (leagueId: string, skip: number, positionGroup: string, draftYear: number, setPlayers: (players: Array<IDraftPlayer>) => void) => {
   myAxiosInstance
-    .get(`/api/draft/players/${draftYear}?LeagueId=${leagueId}&Skip=${skip}`)
+    .get(`/api/draft/players/${draftYear}?LeagueId=${leagueId}&Skip=${skip}&PositionGroup=${positionGroup}`)
     .then(res => {
       setPlayers(res.data.data);
     })

@@ -7,6 +7,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { IDraftPlayer } from '../models/player';
+import { avg } from '../calculations/average';
+import { overallProjection } from '../calculations/overallRatingProjector';
 
 const useStyles = makeStyles({
   table: {
@@ -18,12 +20,6 @@ interface IScoutingTable {
     players: Array<IDraftPlayer>;
 }
 
-const avg = (...params: Array<number>) => {
-    if (params.length === 0) return 0;
-    const sum = params.reduce((a, b) => a + b);
-    return sum / params.length;
-}
-
 export function ScoutingTable(props: IScoutingTable) {
   const classes = useStyles();
 
@@ -33,6 +29,7 @@ export function ScoutingTable(props: IScoutingTable) {
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
+            <TableCell align="right">Ovr</TableCell>
             <TableCell align="right">ScnP</TableCell>
             <TableCell align="right">ShoP</TableCell>
             <TableCell align="right">MP</TableCell>
@@ -53,6 +50,7 @@ export function ScoutingTable(props: IScoutingTable) {
               <TableCell component="th" scope="row">
                 {player.First_Name} {player.Last_Name}
               </TableCell>
+              <TableCell align="right">{overallProjection(player).toFixed(1)}</TableCell>
               <TableCell align="right">{avg(player.Low_Screen_Passes, player.High_Screen_Passes)}</TableCell>
               <TableCell align="right">{avg(player.Low_Short_Passes, player.High_Short_Passes)}</TableCell>
               <TableCell align="right">{avg(player.Low_Medium_Passes, player.High_Medium_Passes)}</TableCell>

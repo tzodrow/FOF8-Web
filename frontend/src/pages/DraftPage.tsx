@@ -36,7 +36,8 @@ function TabPanel(props: React.PropsWithChildren<ITabPanelProps>) {
         >
             {value === index && (
                 <Box p={3}>
-                    <Typography>{children}</Typography>
+                    {/* <Typography>{children}</Typography> */}
+                    {children}
                 </Box>
             )}
         </div>
@@ -64,7 +65,7 @@ export function DraftPage() {
 
     useEffect(() => {
         if (league?._id) {
-            getDraftPlayers(league._id, skip, draftYear, setDraftPlayers);
+            getDraftPlayers(league._id, skip, "QB", draftYear, setDraftPlayers);
         }
     }, [league, skip, draftYear]);
 
@@ -92,7 +93,7 @@ export function DraftPage() {
                 </FormControl>
                 <ButtonGroup color="primary">
                     <Button disabled={skip === 0} onClick={() => setSkip(prev => prev - 1)}>Previous</Button>
-                    <Button onClick={() => setSkip(prev => prev + 1)}>Next</Button>
+                    <Button disabled={draftPlayers.length < 25} onClick={() => setSkip(prev => prev + 1)}>Next</Button>
                 </ButtonGroup>
             </div>
             <Tabs

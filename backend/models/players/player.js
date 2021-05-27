@@ -16,6 +16,9 @@ const playerSchema = new mongoose.Schema({
     Season_1_Year : {
         type: Number
     },
+    Position_Group : {
+        type: String
+    },
     Ratings: {
         type: [ratingsSchema]
     }
