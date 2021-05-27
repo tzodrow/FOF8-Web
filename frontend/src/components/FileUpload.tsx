@@ -3,6 +3,8 @@ import { ParseResult, Parser } from "papaparse";
 import { useEffect, useRef, useState } from "react";
 import { CSVReader } from "react-papaparse";
 import { upsertRating, upsertRecord } from "../api/axiosApi";
+import { overallProjectionQB } from "../calculations/overallRatingProjector";
+import { IDraftPlayer } from "../models/player";
 import { IRecord } from "../models/record";
 
 import "./FileUpload.scss";
@@ -58,6 +60,18 @@ export function FileUpload(props: IFileUploadProps) {
             if (result.meta.fields?.some(f => f === "Scouting")) {
                 upsertRating(
                     { ...result.data, LeagueId: props.leagueId },
+                    () => {
+                        setDataUploaded((prev) => prev + result.meta.cursor);
+                        parser.resume();
+                    },
+                    () => parser.abort());
+            } else if (result.meta.fields?.some(f => f === "Interviewed")) {
+                upsertRecord(
+                    { 
+                        ...result.data, 
+                        LeagueId: props.leagueId, 
+                        Overall_Projection_QB: overallProjectionQB(result.data as unknown as IDraftPlayer) 
+                    },
                     () => {
                         setDataUploaded((prev) => prev + result.meta.cursor);
                         parser.resume();

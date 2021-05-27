@@ -31,7 +31,19 @@ const routes = (app) => {
       serverResponses.sendError(res, messages.BAD_REQUEST, "Missing LeagueId.");
     } else {
       const skip = req.query.Skip && !isNaN(req.query.Skip) ? parseInt(req.query.Skip) : 0;
-      Player.find({ LeagueId: req.query.LeagueId, Season_1_Year: req.params.draftYear, Position_Group: req.query.PositionGroup }, undefined, { limit: playerResultLimit, skip: skip * playerResultLimit, sort: { Player_ID: 1 } })
+      Player
+        .find(
+          {
+            LeagueId: req.query.LeagueId,
+            Season_1_Year: req.params.draftYear,
+            Position_Group: req.query.PositionGroup
+          },
+          undefined,
+          {
+            limit: playerResultLimit,
+            skip: skip * playerResultLimit,
+            sort: { Overall_Projection_QB: -1 }
+          })
         .then((fhs) => {
           serverResponses.sendSuccess(res, messages.SUCCESSFUL, fhs);
         })

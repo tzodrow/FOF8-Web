@@ -32,7 +32,7 @@ export function LeagueSelect(props: ILeagueSelect) {
             <Select
                 labelId={`league-select-label`}
                 id={'league-select'}
-                value={props.value}
+                value={props.value?._id ? props.value._id : ""}
                 onChange={onChange}
             >
                 {props.options.map((option: ILeague, index: number) => <MenuItem key={index} value={option?._id}>{option.Name}</MenuItem>)}

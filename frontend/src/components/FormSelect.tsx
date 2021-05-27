@@ -31,7 +31,7 @@ export function FormSelect(props: IFormSelectProps) {
             <Select
                 labelId={`${props.id}-label`}
                 id={props.id}
-                value={props.value}
+                value={props.value ? props.value : ""}
                 onChange={onChange}
             >
                 {props.options.map((option: string, index: number) => <MenuItem key={index} value={option}>{option}</MenuItem>)}

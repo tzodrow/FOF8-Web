@@ -8,7 +8,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { IDraftPlayer } from '../models/player';
 import { avg } from '../calculations/average';
-import { overallProjection } from '../calculations/overallRatingProjector';
 
 const useStyles = makeStyles({
   table: {
@@ -50,7 +49,7 @@ export function ScoutingTable(props: IScoutingTable) {
               <TableCell component="th" scope="row">
                 {player.First_Name} {player.Last_Name}
               </TableCell>
-              <TableCell align="right">{overallProjection(player).toFixed(1)}</TableCell>
+              <TableCell align="right">{player.Overall_Projection_QB?.toFixed(1)}</TableCell>
               <TableCell align="right">{avg(player.Low_Screen_Passes, player.High_Screen_Passes)}</TableCell>
               <TableCell align="right">{avg(player.Low_Short_Passes, player.High_Short_Passes)}</TableCell>
               <TableCell align="right">{avg(player.Low_Medium_Passes, player.High_Medium_Passes)}</TableCell>

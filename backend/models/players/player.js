@@ -19,6 +19,9 @@ const playerSchema = new mongoose.Schema({
     Position_Group : {
         type: String
     },
+    Overall_Projection_QB : {
+        type: Number
+    },
     Ratings: {
         type: [ratingsSchema]
     }

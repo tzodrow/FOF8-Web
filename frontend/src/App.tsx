@@ -16,13 +16,9 @@ export function App() {
 
   const dispatch = useDispatch();
 
-  const setLeaguesDispatch = (leagues: Array<ILeague>) => {
-    dispatch(setLeagues(leagues))
-  }
-
   useEffect(() => {
-    getLeagues(setLeaguesDispatch);
-  }, []);
+    getLeagues((leagues) => dispatch(setLeagues(leagues)));
+  }, [dispatch]);
 
   const onLeagueChange = (league?: ILeague) => {
     if (league) {

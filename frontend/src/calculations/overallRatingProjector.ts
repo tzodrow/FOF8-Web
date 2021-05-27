@@ -1,23 +1,6 @@
 import { IDraftPlayer } from "../models/player";
 import { avg } from "./average";
 
-// Running Back:
-// newWeightInput.Attributes[0] = 5; //"Breakaway Speed (Ft80)",
-// newWeightInput.Attributes[1] = 5; //"Power Inside (Bp100)",
-// newWeightInput.Attributes[2] = 8; //"Third Down Running (Ag33)",
-// newWeightInput.Attributes[3] = 25; //"Hole Recognition (So90)",
-// newWeightInput.Attributes[4] = 8; //"Elusiveness (Ag33)",
-// newWeightInput.Attributes[5] = 5; //"Speed to Outside (Bj50/Ft20)",
-// newWeightInput.Attributes[6] = 6; //"Blitz Pickup (PD90)",
-// newWeightInput.Attributes[7] = 6; //"Avoid Drops",
-// newWeightInput.Attributes[8] = 2; //"Getting Downfield (Ag33)",
-// newWeightInput.Attributes[9] = 6; //"Route Running",
-// newWeightInput.Attributes[10] = 2; //"Third Down Catching (PD05)",
-// newWeightInput.Attributes[11] = 1; //"Punt Returns",
-// newWeightInput.Attributes[12] = 1; //"Kick Returns",
-// newWeightInput.Attributes[13] = 15; //"Endurance (Bj50)",
-// newWeightInput.Attributes[14] = 2;//"Special Teams"
-
 // QB:
 const ScreenPassesValue = 20;
 const ShortPassesValue = 19;
@@ -48,19 +31,22 @@ const QBTotal =
     + ScrambleFrequencyValue
     + KickHoldingValue;
 
-// newWeightInput.Attributes[0] = 20; //"Screen Passes (Ag25)",
-// newWeightInput.Attributes[1] = 19; //"Short Passes",
-// newWeightInput.Attributes[2] = 22; //"Medium Passes (Bj66)",
-// newWeightInput.Attributes[3] = 22; //"Long Passes (Bp50)",
-// newWeightInput.Attributes[4] = 15; //"Deep Passes (Bp50)",
-// newWeightInput.Attributes[5] = 24; //"Third Down Passing (Bj33)",
-// newWeightInput.Attributes[6] = 23; //"Accuracy (PD50)",
-// newWeightInput.Attributes[7] = 0; //"Timing (PD50)",
-// newWeightInput.Attributes[8] = 8; //"Sense Rush (Ag75)",
-// newWeightInput.Attributes[9] = 11; //"Read Defense (So10)",
-// newWeightInput.Attributes[10] = 7; //"Two Minute Offense",
-// newWeightInput.Attributes[11] = 0; //"Scramble Frequency (Ft85)",
-// newWeightInput.Attributes[12] = 0; //"Kick Holding"
+// Running Back:
+// newWeightInput.Attributes[0] = 5; //"Breakaway Speed (Ft80)",
+// newWeightInput.Attributes[1] = 5; //"Power Inside (Bp100)",
+// newWeightInput.Attributes[2] = 8; //"Third Down Running (Ag33)",
+// newWeightInput.Attributes[3] = 25; //"Hole Recognition (So90)",
+// newWeightInput.Attributes[4] = 8; //"Elusiveness (Ag33)",
+// newWeightInput.Attributes[5] = 5; //"Speed to Outside (Bj50/Ft20)",
+// newWeightInput.Attributes[6] = 6; //"Blitz Pickup (PD90)",
+// newWeightInput.Attributes[7] = 6; //"Avoid Drops",
+// newWeightInput.Attributes[8] = 2; //"Getting Downfield (Ag33)",
+// newWeightInput.Attributes[9] = 6; //"Route Running",
+// newWeightInput.Attributes[10] = 2; //"Third Down Catching (PD05)",
+// newWeightInput.Attributes[11] = 1; //"Punt Returns",
+// newWeightInput.Attributes[12] = 1; //"Kick Returns",
+// newWeightInput.Attributes[13] = 15; //"Endurance (Bj50)",
+// newWeightInput.Attributes[14] = 2;//"Special Teams"
 
 // FB:
 
@@ -216,27 +202,20 @@ const QBTotal =
 // newWeightInput.Attributes[10] = 1;//"Special Teams"
 
 
-export function overallProjection(player: IDraftPlayer) {
-    let proj = 0;
-    switch(player.Position_Group) {
-        case "QB":
-            proj += avg(player.Low_Screen_Passes, player.High_Screen_Passes) * (ScreenPassesValue / QBTotal);
-            proj += avg(player.Low_Short_Passes, player.High_Short_Passes) * (ShortPassesValue / QBTotal);
-            proj += avg(player.Low_Medium_Passes, player.High_Medium_Passes) * (MediumPassesValue / QBTotal);
-            proj += avg(player.Low_Long_Passes, player.High_Long_Passes) * (LongPassesValue / QBTotal);
-            proj += avg(player.Low_Deep_Passes, player.High_Deep_Passes) * (DeepPassesValue / QBTotal);
-            proj += avg(player.Low_Third_Down, player.High_Third_Down) * (ThirdDownPassingValue / QBTotal);
-            proj += avg(player.Low_Accuracy, player.High_Accuracy) * (AccuracyValue / QBTotal);
-            proj += avg(player.Low_Timing, player.High_Timing) * (TimingValue / QBTotal);
-            proj += avg(player.Low_Sense_Rush, player.High_Sense_Rush) * (SenseRushValue / QBTotal);
-            proj += avg(player.Low_Read_Defense, player.High_Read_Defense) * (ReadDefenseValue / QBTotal);
-            proj += avg(player["Low_Two-Minute_Offense"], player["High_Two-Minute_Offense"]) * (TwoMinuteOffenseValue / QBTotal);
-            proj += avg(player.Low_Run_Frequency, player.High_Run_Frequency) * (ScrambleFrequencyValue / QBTotal);
-            proj += avg(player.Low_Kick_Holding, player.High_Kick_Holding) * (KickHoldingValue / QBTotal);
-            break;
-        default:
-            return -1;
-    }
+export function overallProjectionQB(player: IDraftPlayer) {
+    let proj = avg(player.Low_Screen_Passes, player.High_Screen_Passes) * (ScreenPassesValue / QBTotal);
+    proj += avg(player.Low_Short_Passes, player.High_Short_Passes) * (ShortPassesValue / QBTotal);
+    proj += avg(player.Low_Medium_Passes, player.High_Medium_Passes) * (MediumPassesValue / QBTotal);
+    proj += avg(player.Low_Long_Passes, player.High_Long_Passes) * (LongPassesValue / QBTotal);
+    proj += avg(player.Low_Deep_Passes, player.High_Deep_Passes) * (DeepPassesValue / QBTotal);
+    proj += avg(player.Low_Third_Down, player.High_Third_Down) * (ThirdDownPassingValue / QBTotal);
+    proj += avg(player.Low_Accuracy, player.High_Accuracy) * (AccuracyValue / QBTotal);
+    proj += avg(player.Low_Timing, player.High_Timing) * (TimingValue / QBTotal);
+    proj += avg(player.Low_Sense_Rush, player.High_Sense_Rush) * (SenseRushValue / QBTotal);
+    proj += avg(player.Low_Read_Defense, player.High_Read_Defense) * (ReadDefenseValue / QBTotal);
+    proj += avg(player["Low_Two-Minute_Offense"], player["High_Two-Minute_Offense"]) * (TwoMinuteOffenseValue / QBTotal);
+    proj += avg(player.Low_Run_Frequency, player.High_Run_Frequency) * (ScrambleFrequencyValue / QBTotal);
+    proj += avg(player.Low_Kick_Holding, player.High_Kick_Holding) * (KickHoldingValue / QBTotal);
 
     return proj;
 }
