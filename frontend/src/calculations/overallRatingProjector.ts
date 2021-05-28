@@ -2,34 +2,34 @@ import { IDraftPlayer } from "../models/player";
 import { avg } from "./average";
 
 // QB:
-const ScreenPassesValue = 20;
-const ShortPassesValue = 19;
-const MediumPassesValue = 22;
-const LongPassesValue = 22;
-const DeepPassesValue = 15;
-const ThirdDownPassingValue = 24;
-const AccuracyValue = 23;
-const TimingValue = 0;
-const SenseRushValue = 8;
-const ReadDefenseValue = 11;
-const TwoMinuteOffenseValue = 7;
-const ScrambleFrequencyValue = 0;
-const KickHoldingValue = 0;
+const ScreenPassesQB = 20;
+const ShortPassesQB = 19;
+const MediumPassesQB = 22;
+const LongPassesQB = 22;
+const DeepPassesQB = 15;
+const ThirdDownPassingQB = 24;
+const AccuracyQB = 23;
+const TimingQB = 0;
+const SenseRushQB = 8;
+const ReadDefenseQB = 11;
+const TwoMinuteOffenseQB = 7;
+const ScrambleFrequencyQB = 0;
+const KickHoldingQB = 0;
 
 const QBTotal = 
-    ScreenPassesValue 
-    + ShortPassesValue 
-    + MediumPassesValue 
-    + LongPassesValue
-    + DeepPassesValue
-    + ThirdDownPassingValue
-    + AccuracyValue
-    + TimingValue
-    + SenseRushValue
-    + ReadDefenseValue
-    + TwoMinuteOffenseValue
-    + ScrambleFrequencyValue
-    + KickHoldingValue;
+    ScreenPassesQB 
+    + ShortPassesQB 
+    + MediumPassesQB 
+    + LongPassesQB
+    + DeepPassesQB
+    + ThirdDownPassingQB
+    + AccuracyQB
+    + TimingQB
+    + SenseRushQB
+    + ReadDefenseQB
+    + TwoMinuteOffenseQB
+    + ScrambleFrequencyQB
+    + KickHoldingQB;
 
 // RB:
 const BreakawaySpeedRB = 5;
@@ -254,73 +254,324 @@ const DTTotal =
 
 // ILB:
 
-// newWeightInput.Attributes[0] = 25; //"Run Defense (Ag100)",
-// newWeightInput.Attributes[1] = 5; //"Pass Rush Technique (Ft100)",
-// newWeightInput.Attributes[2] = 8; //"Man-to-Man Defense (Bj100)",
-// newWeightInput.Attributes[3] = 8; //"Zone Defense (PD50)",
-// newWeightInput.Attributes[4] = 8; //"Bump and Run Defense (Bp33)",
-// newWeightInput.Attributes[5] = 2; //"Pass Rush Strength (Bp33)",
-// newWeightInput.Attributes[6] = 8; //"Play Diagnosis (So50)",
-// newWeightInput.Attributes[7] = 4; //"Punishing Hitter (Bp33)",
-// newWeightInput.Attributes[8] = 4; //"Endurance",
-// newWeightInput.Attributes[9] = 1; //"Special Teams"
+const RunDefenseILB = 25;
+const PassRushTechniqueILB = 5;
+const PassRushStrengthILB = 8;
+const ManToManDefenseILB = 8;
+const ZoneDefenseILB = 8;
+const BumpAndRunDefenseILB = 2;
+const PlayDiagnosisILB = 8;
+const PunishingHitterILB = 4;
+const EnduranceILB = 4;
+const SpecialTeamsILB = 1;
+
+const ILBTotal =
+    RunDefenseILB
+    + PassRushTechniqueILB
+    + PassRushStrengthILB
+    + ManToManDefenseILB
+    + ZoneDefenseILB
+    + BumpAndRunDefenseILB
+    + PlayDiagnosisILB
+    + PunishingHitterILB
+    + EnduranceILB
+    + SpecialTeamsILB;
 
 // OLB:
 
-// newWeightInput.Attributes[0] = 25; //"Run Defense (Ag100)",
-// newWeightInput.Attributes[1] = 8; //"Pass Rush Technique (Ft100)",
-// newWeightInput.Attributes[2] = 10; //"Man-to-Man Defense (Bj100)",
-// newWeightInput.Attributes[3] = 10; //"Zone Defense (PD50)",
-// newWeightInput.Attributes[4] = 10; //"Bump and Run Defense (Bp33)",
-// newWeightInput.Attributes[5] = 2; //"Pass Rush Strength (Bp33)",
-// newWeightInput.Attributes[6] = 8; //"Play Diagnosis (So50)",
-// newWeightInput.Attributes[7] = 4; //"Punishing Hitter (Bp33)",
-// newWeightInput.Attributes[8] = 4; //"Endurance",
-// newWeightInput.Attributes[9] = 1; //"Special Teams"
+const RunDefenseOLB = 25;
+const PassRushTechniqueOLB = 8;
+const PassRushStrengthOLB = 10;
+const ManToManDefenseOLB = 10;
+const ZoneDefenseOLB = 10;
+const BumpAndRunDefenseOLB = 2;
+const PlayDiagnosisOLB = 8;
+const PunishingHitterOLB = 4;
+const EnduranceOLB = 4;
+const SpecialTeamsOLB = 1;
+
+const OLBTotal =
+    RunDefenseOLB
+    + PassRushTechniqueOLB
+    + PassRushStrengthOLB
+    + ManToManDefenseOLB
+    + ZoneDefenseOLB
+    + BumpAndRunDefenseOLB
+    + PlayDiagnosisOLB
+    + PunishingHitterOLB
+    + EnduranceOLB
+    + SpecialTeamsOLB;
 
 // CB:
 
-// newWeightInput.Attributes[0] = 16; //"Run Defense (Ag100)",
-// newWeightInput.Attributes[1] = 24; //"Man-to-Man Defense (Ft50)",
-// newWeightInput.Attributes[2] = 22; //"Zone Defense (Ft50PD50)",
-// newWeightInput.Attributes[3] = 24; //"Bump and Run Defense (Bp50)",
-// newWeightInput.Attributes[4] = 8; //"Play Diagnosis (So50)",
-// newWeightInput.Attributes[5] = 2; //"Punishing Hitter (Bp50)",
-// newWeightInput.Attributes[6] = 9; //"Interceptions (PD50)",
-// newWeightInput.Attributes[7] = 1; //"Punt Returns (Bj50)",
-// newWeightInput.Attributes[8] = 1; //"Kick Returns (Bj50)",
-// newWeightInput.Attributes[9] = 5; //"Endurance",
-// newWeightInput.Attributes[10] = 1;//"Special Teams"
+const RunDefenseCB = 16;
+const ManToManDefenseCB = 24;
+const ZoneDefenseCB = 22;
+const BumpAndRunDefenseCB = 24;
+const PlayDiagnosisCB = 8;
+const PunishingHitterCB = 2;
+const InterceptionsCB = 9;
+const PuntReturnsCB = 1;
+const KickReturnsCB = 1;
+const EnduranceCB = 5;
+const SpecialTeamsCB = 1;
+
+const CBTotal =
+    RunDefenseCB
+    + ManToManDefenseCB
+    + ZoneDefenseCB
+    + BumpAndRunDefenseCB
+    + PlayDiagnosisCB
+    + PunishingHitterCB
+    + InterceptionsCB
+    + PuntReturnsCB
+    + KickReturnsCB
+    + EnduranceCB
+    + SpecialTeamsCB;
 
 // S:
 
-// newWeightInput.Attributes[0] = 25; //"Run Defense (Ag100)",
-// newWeightInput.Attributes[1] = 11; //"Man-to-Man Defense (Ft50)",
-// newWeightInput.Attributes[2] = 11; //"Zone Defense (Ft50PD50)",
-// newWeightInput.Attributes[3] = 11; //"Bump and Run Defense (Bp50)",
-// newWeightInput.Attributes[4] = 9; //"Play Diagnosis (So50)",
-// newWeightInput.Attributes[5] = 3; //"Punishing Hitter (Bp50)",
-// newWeightInput.Attributes[6] = 7; //"Interceptions (PD50)",
-// newWeightInput.Attributes[7] = 1; //"Punt Returns (Bj50)",
-// newWeightInput.Attributes[8] = 1; //"Kick Returns (Bj50)",
-// newWeightInput.Attributes[9] = 4; //"Endurance",
-// newWeightInput.Attributes[10] = 1;//"Special Teams"
+const RunDefenseS = 25;
+const ManToManDefenseS = 11;
+const ZoneDefenseS = 11;
+const BumpAndRunDefenseS = 11;
+const PlayDiagnosisS = 9;
+const PunishingHitterS = 3;
+const InterceptionsS = 7;
+const PuntReturnsS = 1;
+const KickReturnsS = 1;
+const EnduranceS = 4;
+const SpecialTeamsS = 1;
+
+const STotal =
+    RunDefenseS
+    + ManToManDefenseS
+    + ZoneDefenseS
+    + BumpAndRunDefenseS
+    + PlayDiagnosisS
+    + PunishingHitterS
+    + InterceptionsS
+    + PuntReturnsS
+    + KickReturnsS
+    + EnduranceS
+    + SpecialTeamsS;
 
 
 export function overallProjectionQB(player: IDraftPlayer) {
-    let proj = avg(player.Low_Screen_Passes, player.High_Screen_Passes) * (ScreenPassesValue / QBTotal);
-    proj += avg(player.Low_Short_Passes, player.High_Short_Passes) * (ShortPassesValue / QBTotal);
-    proj += avg(player.Low_Medium_Passes, player.High_Medium_Passes) * (MediumPassesValue / QBTotal);
-    proj += avg(player.Low_Long_Passes, player.High_Long_Passes) * (LongPassesValue / QBTotal);
-    proj += avg(player.Low_Deep_Passes, player.High_Deep_Passes) * (DeepPassesValue / QBTotal);
-    proj += avg(player.Low_Third_Down, player.High_Third_Down) * (ThirdDownPassingValue / QBTotal);
-    proj += avg(player.Low_Accuracy, player.High_Accuracy) * (AccuracyValue / QBTotal);
-    proj += avg(player.Low_Timing, player.High_Timing) * (TimingValue / QBTotal);
-    proj += avg(player.Low_Sense_Rush, player.High_Sense_Rush) * (SenseRushValue / QBTotal);
-    proj += avg(player.Low_Read_Defense, player.High_Read_Defense) * (ReadDefenseValue / QBTotal);
-    proj += avg(player["Low_Two-Minute_Offense"], player["High_Two-Minute_Offense"]) * (TwoMinuteOffenseValue / QBTotal);
-    proj += avg(player.Low_Run_Frequency, player.High_Run_Frequency) * (ScrambleFrequencyValue / QBTotal);
-    proj += avg(player.Low_Kick_Holding, player.High_Kick_Holding) * (KickHoldingValue / QBTotal);
+    let proj = avg(player.Low_Screen_Passes, player.High_Screen_Passes) * (ScreenPassesQB / QBTotal);
+    proj += avg(player.Low_Short_Passes, player.High_Short_Passes) * (ShortPassesQB / QBTotal);
+    proj += avg(player.Low_Medium_Passes, player.High_Medium_Passes) * (MediumPassesQB / QBTotal);
+    proj += avg(player.Low_Long_Passes, player.High_Long_Passes) * (LongPassesQB / QBTotal);
+    proj += avg(player.Low_Deep_Passes, player.High_Deep_Passes) * (DeepPassesQB / QBTotal);
+    proj += avg(player.Low_Third_Down, player.High_Third_Down) * (ThirdDownPassingQB / QBTotal);
+    proj += avg(player.Low_Accuracy, player.High_Accuracy) * (AccuracyQB / QBTotal);
+    proj += avg(player.Low_Timing, player.High_Timing) * (TimingQB / QBTotal);
+    proj += avg(player.Low_Sense_Rush, player.High_Sense_Rush) * (SenseRushQB / QBTotal);
+    proj += avg(player.Low_Read_Defense, player.High_Read_Defense) * (ReadDefenseQB / QBTotal);
+    proj += avg(player["Low_Two-Minute_Offense"], player["High_Two-Minute_Offense"]) * (TwoMinuteOffenseQB / QBTotal);
+    proj += avg(player.Low_Run_Frequency, player.High_Run_Frequency) * (ScrambleFrequencyQB / QBTotal);
+    proj += avg(player.Low_Kick_Holding, player.High_Kick_Holding) * (KickHoldingQB / QBTotal);
+
+    return proj;
+}
+
+export function overallProjectionRB(player: IDraftPlayer) {
+    let proj = avg(player.Low_Speed, player.High_Speed) * (BreakawaySpeedRB / RBTotal);
+    proj += avg(player.Low_Power_Inside, player.High_Power_Inside) * (PowerInsideRB / RBTotal);
+    proj += avg(player["Low_Third-Down_Runs"], player["High_Third-Down_Runs"]) * (ThirdDownRunningRB / RBTotal);
+    proj += avg(player.Low_Hole_Recognition, player.High_Hole_Recognition) * (HoleRecognitionRB / RBTotal);
+    proj += avg(player.Low_Elusiveness, player.High_Elusiveness) * (ElusivenessRB / RBTotal);
+    proj += avg(player.Low_Speed_Outside, player.High_Speed_Outside) * (SpeedToOutsideRB / RBTotal);
+    proj += avg(player.Low_Blitz_Pickup, player.High_Blitz_Pickup) * (BlitzPickupRB / RBTotal);
+    proj += avg(player.Low_Avoid_Drops, player.High_Avoid_Drops) * (AvoidDropsRB / RBTotal);
+    proj += avg(player.Low_Get_Downfield, player.High_Get_Downfield) * (GettingDownFieldRB / RBTotal);
+    proj += avg(player.Low_Route_Running, player.High_Route_Running) * (RouteRunningRB / RBTotal);
+    proj += avg(player["Low_Third-Down_Receiving"], player["High_Third-Down_Receiving"]) * (ThirdDownCatchingRB / RBTotal);
+    proj += avg(player.Low_Punt_Returns, player.High_Punt_Returns) * (PuntReturnsRB / RBTotal);
+    proj += avg(player.Low_Kick_Returns, player.High_Kick_Returns) * (KickReturnsRB / RBTotal);
+    proj += avg(player.Low_Endurance, player.High_Endurance) * (EnduranceRB / RBTotal);
+    proj += avg(player.Low_Special_Teams, player.High_Special_Teams) * (SpecialTeamsRB / RBTotal);
+
+    return proj;
+}
+
+export function overallProjectionFB(player: IDraftPlayer) {
+    let proj = avg(player.Low_Run_Blocking, player.High_Run_Blocking) * (RunBlockingFB / FBTotal);
+    proj += avg(player.Low_Pass_Blocking, player.High_Pass_Blocking) * (PassBlockingFB / FBTotal);
+    proj += avg(player.Low_Blocking_Strength, player.High_Blocking_Strength) * (BlockingStrengthFB / FBTotal);
+    proj += avg(player.Low_Power_Inside, player.High_Power_Inside) * (PowerInsideFB / FBTotal);
+    proj += avg(player["Low_Third-Down_Runs"], player["High_Third-Down_Runs"]) * (ThirdDownRunningFB / FBTotal);
+    proj += avg(player.Low_Hole_Recognition, player.High_Hole_Recognition) * (HoleRecognitionFB / FBTotal);
+    proj += avg(player.Low_Blitz_Pickup, player.High_Blitz_Pickup) * (BlitzPickupFB / FBTotal);
+    proj += avg(player.Low_Avoid_Drops, player.High_Avoid_Drops) * (AvoidDropsFB / FBTotal);
+    proj += avg(player.Low_Route_Running, player.High_Route_Running) * (RouteRunningFB / FBTotal);
+    proj += avg(player["Low_Third-Down_Receiving"], player["High_Third-Down_Receiving"]) * (ThirdDownCatchingFB / FBTotal);
+    proj += avg(player.Low_Endurance, player.High_Endurance) * (EnduranceFB / FBTotal);
+    proj += avg(player.Low_Special_Teams, player.High_Special_Teams) * (SpecialTeamsFB / FBTotal);
+
+    return proj;
+}
+
+export function overallProjectionTE(player: IDraftPlayer) {
+    let proj = avg(player.Low_Run_Blocking, player.High_Run_Blocking) * (RunBlockingTE / TETotal);
+    proj += avg(player.Low_Pass_Blocking, player.High_Pass_Blocking) * (PassBlockingTE / TETotal);
+    proj += avg(player.Low_Blocking_Strength, player.High_Blocking_Strength) * (BlockingStrengthTE / TETotal);
+    proj += avg(player.Low_Avoid_Drops, player.High_Avoid_Drops) * (AvoidDropsTE / TETotal);
+    proj += avg(player.Low_Get_Downfield, player.High_Get_Downfield) * (GettingDownFieldTE / RBTotal);
+    proj += avg(player.Low_Route_Running, player.High_Route_Running) * (RouteRunningTE / TETotal);
+    proj += avg(player["Low_Third-Down_Receiving"], player["High_Third-Down_Receiving"]) * (ThirdDownCatchingTE / TETotal);
+    proj += avg(player.Low_Big_Play_Receiving, player.High_Big_Play_Receiving) * (BigPlayReceivingTE / TETotal);
+    proj += avg(player.Low_Courage, player.High_Courage) * (CourageTE / TETotal);
+    proj += avg(player.Low_Adjust_to_Ball, player.High_Adjust_to_Ball) * (AdjustToBallTE / TETotal);
+    proj += avg(player.Low_Endurance, player.High_Endurance) * (EnduranceTE / TETotal);
+    proj += avg(player.Low_Special_Teams, player.High_Special_Teams) * (SpecialTeamsTE / TETotal);
+    proj += avg(player.Low_Long_Snapping, player.High_Long_Snapping) * (LongSnappingTE / TETotal);
+
+    return proj;
+}
+
+export function overallProjectionWR(player: IDraftPlayer) {
+    let proj = avg(player.Low_Avoid_Drops, player.High_Avoid_Drops) * (AvoidDropsWR / WRTotal);
+    proj += avg(player.Low_Get_Downfield, player.High_Get_Downfield) * (GettingDownFieldWR / RBTotal);
+    proj += avg(player.Low_Route_Running, player.High_Route_Running) * (RouteRunningWR / WRTotal);
+    proj += avg(player["Low_Third-Down_Receiving"], player["High_Third-Down_Receiving"]) * (ThirdDownCatchingWR / WRTotal);
+    proj += avg(player.Low_Big_Play_Receiving, player.High_Big_Play_Receiving) * (BigPlayReceivingWR / WRTotal);
+    proj += avg(player.Low_Courage, player.High_Courage) * (CourageWR / WRTotal);
+    proj += avg(player.Low_Adjust_to_Ball, player.High_Adjust_to_Ball) * (AdjustToBallWR / WRTotal);
+    proj += avg(player.Low_Punt_Returns, player.High_Punt_Returns) * (PuntReturnsWR / WRTotal);
+    proj += avg(player.Low_Kick_Returns, player.High_Kick_Returns) * (KickReturnsWR / WRTotal);
+    proj += avg(player.Low_Endurance, player.High_Endurance) * (EnduranceWR / WRTotal);
+    proj += avg(player.Low_Special_Teams, player.High_Special_Teams) * (SpecialTeamsWR / WRTotal);
+
+    return proj;
+}
+
+export function overallProjectionC(player: IDraftPlayer) {
+    let proj = avg(player.Low_Run_Blocking, player.High_Run_Blocking) * (RunBlockingC / CTotal);
+    proj += avg(player.Low_Pass_Blocking, player.High_Pass_Blocking) * (PassBlockingC / CTotal);
+    proj += avg(player.Low_Blocking_Strength, player.High_Blocking_Strength) * (BlockingStrengthC / CTotal);
+    proj += avg(player.Low_Endurance, player.High_Endurance) * (EnduranceC / CTotal);
+    proj += avg(player.Low_Long_Snapping, player.High_Long_Snapping) * (LongSnappingC / CTotal);
+
+    return proj;
+}
+
+export function overallProjectionG(player: IDraftPlayer) {
+    let proj = avg(player.Low_Run_Blocking, player.High_Run_Blocking) * (RunBlockingG / GTotal);
+    proj += avg(player.Low_Pass_Blocking, player.High_Pass_Blocking) * (PassBlockingG / GTotal);
+    proj += avg(player.Low_Blocking_Strength, player.High_Blocking_Strength) * (BlockingStrengthG / GTotal);
+    proj += avg(player.Low_Endurance, player.High_Endurance) * (EnduranceG / GTotal);
+
+    return proj;
+}
+
+export function overallProjectionT(player: IDraftPlayer) {
+    let proj = avg(player.Low_Run_Blocking, player.High_Run_Blocking) * (RunBlockingT / TTotal);
+    proj += avg(player.Low_Pass_Blocking, player.High_Pass_Blocking) * (PassBlockingT / TTotal);
+    proj += avg(player.Low_Blocking_Strength, player.High_Blocking_Strength) * (BlockingStrengthT / TTotal);
+    proj += avg(player.Low_Endurance, player.High_Endurance) * (EnduranceT / TTotal);
+
+    return proj;
+}
+
+export function overallProjectionP(player: IDraftPlayer) {
+    let proj = avg(player.Low_Punting_Power, player.High_Punting_Power) * (KickingPowerP / PTotal);
+    proj += avg(player.Low_Hang_Time, player.High_Hang_Time) * (PuntHangTime / PTotal);
+    proj += avg(player.Low_Directional_Punting, player.High_Directional_Punting) * (DirectionalPunting / PTotal);
+    proj += avg(player.Low_Kick_Holding, player.High_Kick_Holding) * (KickHoldingP / PTotal);
+
+    return proj;
+}
+
+export function overallProjectionK(player: IDraftPlayer) {
+    let proj = avg(player.Low_Kicking_Accuracy, player.High_Kicking_Accuracy) * (KickingAccuracy / KTotal);
+    proj += avg(player.Low_Kicking_Power, player.High_Kicking_Power) * (KickingPowerK / KTotal);
+    proj += avg(player.Low_Kickoff_Distance, player.High_Kickoff_Distance) * (KickoffDistance / KTotal);
+    proj += avg(player.Low_Kickoff_Hang_Time, player.High_Kickoff_Hang_Time) * (KickoffHangTime / KTotal);
+
+    return proj;
+}
+
+export function overallProjectionDE(player: IDraftPlayer) {
+    let proj = avg(player.Low_Run_Defense, player.High_Run_Defense) * (RunDefenseDE / DETotal);
+    proj += avg(player.Low_Pass_Rush_Technique, player.High_Pass_Rush_Technique) * (PassRushTechniqueDE / DETotal);
+    proj += avg(player.Low_Pass_Rush_Strength, player.High_Pass_Rush_Strength) * (PassRushStrengthDE / DETotal);
+    proj += avg(player.Low_Play_Diagnosis, player.High_Play_Diagnosis) * (PlayDiagnosisDE / DETotal);
+    proj += avg(player.Low_Punishing_Hitter, player.High_Punishing_Hitter) * (PunishingHitterDE / DETotal);
+    proj += avg(player.Low_Endurance, player.High_Endurance) * (EnduranceDE / DETotal);
+
+    return proj;
+}
+
+export function overallProjectionDT(player: IDraftPlayer) {
+    let proj = avg(player.Low_Run_Defense, player.High_Run_Defense) * (RunDefenseDT / DTTotal);
+    proj += avg(player.Low_Pass_Rush_Technique, player.High_Pass_Rush_Technique) * (PassRushTechniqueDT / DTTotal);
+    proj += avg(player.Low_Pass_Rush_Strength, player.High_Pass_Rush_Strength) * (PassRushStrengthDT / DTTotal);
+    proj += avg(player.Low_Play_Diagnosis, player.High_Play_Diagnosis) * (PlayDiagnosisDT / DTTotal);
+    proj += avg(player.Low_Punishing_Hitter, player.High_Punishing_Hitter) * (PunishingHitterDT / DTTotal);
+    proj += avg(player.Low_Endurance, player.High_Endurance) * (EnduranceDT / DTTotal);
+
+    return proj;
+}
+
+export function overallProjectionILB(player: IDraftPlayer) {
+    let proj = avg(player.Low_Run_Defense, player.High_Run_Defense) * (RunDefenseILB / ILBTotal);
+    proj += avg(player.Low_Pass_Rush_Technique, player.High_Pass_Rush_Technique) * (PassRushTechniqueILB / ILBTotal);
+    proj += avg(player.Low_Pass_Rush_Strength, player.High_Pass_Rush_Strength) * (PassRushStrengthILB / ILBTotal);
+    proj += avg(player["Low_Man-to-Man_Defense"], player["High_Man-to-Man_Defense"]) * (ManToManDefenseILB / ILBTotal);
+    proj += avg(player.Low_Zone_Defense, player.High_Zone_Defense) * (ZoneDefenseILB / ILBTotal);
+    proj += avg(player["Low_Bump-and-Run_Defense"], player["High_Bump-and-Run_Defense"]) * (BumpAndRunDefenseILB / ILBTotal);
+    proj += avg(player.Low_Play_Diagnosis, player.High_Play_Diagnosis) * (PlayDiagnosisILB / ILBTotal);
+    proj += avg(player.Low_Punishing_Hitter, player.High_Punishing_Hitter) * (PunishingHitterILB / ILBTotal);
+    proj += avg(player.Low_Endurance, player.High_Endurance) * (EnduranceILB / ILBTotal);
+    proj += avg(player.Low_Special_Teams, player.High_Special_Teams) * (SpecialTeamsILB / ILBTotal);
+
+    return proj;
+}
+
+export function overallProjectionOLB(player: IDraftPlayer) {
+    let proj = avg(player.Low_Run_Defense, player.High_Run_Defense) * (RunDefenseOLB / OLBTotal);
+    proj += avg(player.Low_Pass_Rush_Technique, player.High_Pass_Rush_Technique) * (PassRushTechniqueOLB / OLBTotal);
+    proj += avg(player.Low_Pass_Rush_Strength, player.High_Pass_Rush_Strength) * (PassRushStrengthOLB / OLBTotal);
+    proj += avg(player["Low_Man-to-Man_Defense"], player["High_Man-to-Man_Defense"]) * (ManToManDefenseOLB / OLBTotal);
+    proj += avg(player.Low_Zone_Defense, player.High_Zone_Defense) * (ZoneDefenseOLB / OLBTotal);
+    proj += avg(player["Low_Bump-and-Run_Defense"], player["High_Bump-and-Run_Defense"]) * (BumpAndRunDefenseOLB / OLBTotal);
+    proj += avg(player.Low_Play_Diagnosis, player.High_Play_Diagnosis) * (PlayDiagnosisOLB / OLBTotal);
+    proj += avg(player.Low_Punishing_Hitter, player.High_Punishing_Hitter) * (PunishingHitterOLB / OLBTotal);
+    proj += avg(player.Low_Endurance, player.High_Endurance) * (EnduranceOLB / OLBTotal);
+    proj += avg(player.Low_Special_Teams, player.High_Special_Teams) * (SpecialTeamsOLB / OLBTotal);
+
+    return proj;
+}
+
+export function overallProjectionCB(player: IDraftPlayer) {
+    let proj = avg(player.Low_Run_Defense, player.High_Run_Defense) * (RunDefenseCB / CBTotal);
+    proj += avg(player["Low_Man-to-Man_Defense"], player["High_Man-to-Man_Defense"]) * (ManToManDefenseCB / CBTotal);
+    proj += avg(player.Low_Zone_Defense, player.High_Zone_Defense) * (ZoneDefenseCB / CBTotal);
+    proj += avg(player["Low_Bump-and-Run_Defense"], player["High_Bump-and-Run_Defense"]) * (BumpAndRunDefenseCB / CBTotal);
+    proj += avg(player.Low_Play_Diagnosis, player.High_Play_Diagnosis) * (PlayDiagnosisCB / CBTotal);
+    proj += avg(player.Low_Punishing_Hitter, player.High_Punishing_Hitter) * (PunishingHitterCB / CBTotal);
+    proj += avg(player.Low_Intercepting, player.High_Intercepting) * (InterceptionsCB / CBTotal);
+    proj += avg(player.Low_Punt_Returns, player.High_Punt_Returns) * (PuntReturnsCB / CBTotal);
+    proj += avg(player.Low_Kick_Returns, player.High_Kick_Returns) * (KickReturnsCB / CBTotal);
+    proj += avg(player.Low_Endurance, player.High_Endurance) * (EnduranceCB / CBTotal);
+    proj += avg(player.Low_Special_Teams, player.High_Special_Teams) * (SpecialTeamsCB / CBTotal);
+
+    return proj;
+}
+
+export function overallProjectionS(player: IDraftPlayer) {
+    let proj = avg(player.Low_Run_Defense, player.High_Run_Defense) * (RunDefenseS / STotal);
+    proj += avg(player["Low_Man-to-Man_Defense"], player["High_Man-to-Man_Defense"]) * (ManToManDefenseS / STotal);
+    proj += avg(player.Low_Zone_Defense, player.High_Zone_Defense) * (ZoneDefenseS / STotal);
+    proj += avg(player["Low_Bump-and-Run_Defense"], player["High_Bump-and-Run_Defense"]) * (BumpAndRunDefenseS / STotal);
+    proj += avg(player.Low_Play_Diagnosis, player.High_Play_Diagnosis) * (PlayDiagnosisS / STotal);
+    proj += avg(player.Low_Punishing_Hitter, player.High_Punishing_Hitter) * (PunishingHitterS / STotal);
+    proj += avg(player.Low_Intercepting, player.High_Intercepting) * (InterceptionsS / STotal);
+    proj += avg(player.Low_Punt_Returns, player.High_Punt_Returns) * (PuntReturnsS / STotal);
+    proj += avg(player.Low_Kick_Returns, player.High_Kick_Returns) * (KickReturnsS / STotal);
+    proj += avg(player.Low_Endurance, player.High_Endurance) * (EnduranceS / STotal);
+    proj += avg(player.Low_Special_Teams, player.High_Special_Teams) * (SpecialTeamsS / STotal);
 
     return proj;
 }

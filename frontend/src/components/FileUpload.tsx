@@ -3,7 +3,7 @@ import { ParseResult, Parser } from "papaparse";
 import { useEffect, useRef, useState } from "react";
 import { CSVReader } from "react-papaparse";
 import { upsertRating, upsertRecord } from "../api/axiosApi";
-import { overallProjectionQB } from "../calculations/overallRatingProjector";
+import { overallProjectionC, overallProjectionCB, overallProjectionDE, overallProjectionDT, overallProjectionFB, overallProjectionG, overallProjectionILB, overallProjectionOLB, overallProjectionQB, overallProjectionRB, overallProjectionS, overallProjectionT, overallProjectionTE, overallProjectionWR } from "../calculations/overallRatingProjector";
 import { IDraftPlayer } from "../models/player";
 import { IRecord } from "../models/record";
 
@@ -66,11 +66,25 @@ export function FileUpload(props: IFileUploadProps) {
                     },
                     () => parser.abort());
             } else if (result.meta.fields?.some(f => f === "Interviewed")) {
+                const draftPlayer = result.data as unknown as IDraftPlayer;
                 upsertRecord(
                     { 
                         ...result.data, 
                         LeagueId: props.leagueId, 
-                        Overall_Projection_QB: overallProjectionQB(result.data as unknown as IDraftPlayer) 
+                        Overall_Projection_C: overallProjectionC(draftPlayer),
+                        Overall_Projection_CB: overallProjectionCB(draftPlayer),
+                        Overall_Projection_DE: overallProjectionDE(draftPlayer),
+                        Overall_Projection_DT: overallProjectionDT(draftPlayer),
+                        Overall_Projection_FB: overallProjectionFB(draftPlayer),
+                        Overall_Projection_G: overallProjectionG(draftPlayer),
+                        Overall_Projection_ILB: overallProjectionILB(draftPlayer),
+                        Overall_Projection_OLB: overallProjectionOLB(draftPlayer),
+                        Overall_Projection_QB: overallProjectionQB(draftPlayer),
+                        Overall_Projection_RB: overallProjectionRB(draftPlayer),
+                        Overall_Projection_S: overallProjectionS(draftPlayer),
+                        Overall_Projection_T: overallProjectionT(draftPlayer),
+                        Overall_Projection_TE: overallProjectionTE(draftPlayer),
+                        Overall_Projection_WR: overallProjectionWR(draftPlayer)
                     },
                     () => {
                         setDataUploaded((prev) => prev + result.meta.cursor);
