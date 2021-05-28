@@ -207,28 +207,50 @@ const PTotal =
 
 // K:
 
-// newWeightInput.Attributes[0] = 25; //"Kicking Accuracy (So50)",
-// newWeightInput.Attributes[1] = 14; //"Kicking Power (Bp100Bj50)",
-// newWeightInput.Attributes[2] = 3; //"Kickoff Distance (Ft100)",
-// newWeightInput.Attributes[3] = 2; //"Kickoff Hang Time (Bj50)"
+const KickingAccuracy = 25;
+const KickingPowerK = 14;
+const KickoffDistance = 3;
+const KickoffHangTime = 2;
+
+const KTotal =
+    KickingAccuracy
+    + KickingPowerK
+    + KickoffDistance
+    + KickoffHangTime;
 
 // DE:
 
-// newWeightInput.Attributes[0] = 25; //"Run Defense (Ag100)",
-// newWeightInput.Attributes[1] = 18; //"Pass Rush Technique (Ft100)",
-// newWeightInput.Attributes[2] = 16;//"Pass Rush Strength (Bp50)",
-// newWeightInput.Attributes[3] = 6; //"Play Diagnosis (So50)",
-// newWeightInput.Attributes[4] = 3; //"Punishing Hitter (Bp50)",
-// newWeightInput.Attributes[5] = 6; //"Endurance (Bj100)"
+const RunDefenseDE = 25;
+const PassRushTechniqueDE = 18;
+const PassRushStrengthDE = 16;
+const PlayDiagnosisDE = 6;
+const PunishingHitterDE = 3;
+const EnduranceDE = 6;
+
+const DETotal =
+    RunDefenseDE
+    + PassRushTechniqueDE
+    + PassRushStrengthDE
+    + PlayDiagnosisDE
+    + PunishingHitterDE
+    + EnduranceDE;
 
 // DT:
 
-// newWeightInput.Attributes[0] = 25; //"Run Defense (Ag100)",
-// newWeightInput.Attributes[1] = 10; //"Pass Rush Technique (Ft100)",
-// newWeightInput.Attributes[2] = 13;//"Pass Rush Strength (Bp50)",
-// newWeightInput.Attributes[3] = 4; //"Play Diagnosis (So50)",
-// newWeightInput.Attributes[4] = 2; //"Punishing Hitter (Bp50)",
-// newWeightInput.Attributes[5] = 6; //"Endurance (Bj100)"
+const RunDefenseDT = 25;
+const PassRushTechniqueDT = 10;
+const PassRushStrengthDT = 13;
+const PlayDiagnosisDT = 4;
+const PunishingHitterDT = 2;
+const EnduranceDT = 6;
+
+const DTTotal =
+    RunDefenseDT
+    + PassRushTechniqueDT
+    + PassRushStrengthDT
+    + PlayDiagnosisDT
+    + PunishingHitterDT
+    + EnduranceDT;
 
 // ILB:
 
