@@ -95,62 +95,115 @@ const FBTotal =
 
 // TE:
 
-// newWeightInput.Attributes[0] = 24; //"Run Blocking (Bj50)",
-// newWeightInput.Attributes[1] = 20; //"Pass Blocking",
-// newWeightInput.Attributes[2] = 15; //"Blocking Strength (Bp100)",
-// newWeightInput.Attributes[3] = 12; //"Avoid Drops (PD50)",
-// newWeightInput.Attributes[4] = 12; //"Getting Downfield (Ft50Ag100)",
-// newWeightInput.Attributes[5] = 25; //"Route Running (So50)",
-// newWeightInput.Attributes[6] = 18; //"Third Down Catching (Bj50)",
-// newWeightInput.Attributes[7] = 3; //"Big Play Receiving (Ft50)",
-// newWeightInput.Attributes[8] = 5; //"Courage",
-// newWeightInput.Attributes[9] = 4; //"Adjust to Ball (PD50)",
-// newWeightInput.Attributes[10] = 8; //"Endurance",
-// newWeightInput.Attributes[11] = 1; //"Special Teams",
-// newWeightInput.Attributes[12] = 0;//"Long Snapping"
+const RunBlockingTE = 24;
+const PassBlockingTE = 20;
+const BlockingStrengthTE = 15;
+const AvoidDropsTE = 12;
+const GettingDownFieldTE = 12;
+const RouteRunningTE = 25;
+const ThirdDownCatchingTE = 18;
+const BigPlayReceivingTE = 3;
+const CourageTE = 5;
+const AdjustToBallTE = 4;
+const EnduranceTE = 8;
+const SpecialTeamsTE = 1;
+const LongSnappingTE = 0;
+
+const TETotal = 
+    RunBlockingTE
+    + PassBlockingTE
+    + BlockingStrengthTE
+    + AvoidDropsTE
+    + GettingDownFieldTE
+    + RouteRunningTE
+    + ThirdDownCatchingTE
+    + BigPlayReceivingTE
+    + CourageTE
+    + AdjustToBallTE
+    + EnduranceTE
+    + SpecialTeamsTE
+    + LongSnappingTE;
 
 // WR:
 
-// newWeightInput.Attributes[0] = 10; //"Avoid Drops (PD65)",
-// newWeightInput.Attributes[1] = 16; //"Getting Downfield (Ag100)",
-// newWeightInput.Attributes[2] = 24; //"Route Running (So50)",
-// newWeightInput.Attributes[3] = 13; //"Third Down Catching",
-// newWeightInput.Attributes[4] = 8; //"Big Play Receiving (Ft70)",
-// newWeightInput.Attributes[5] = 6; //"Courage (Bp100)",
-// newWeightInput.Attributes[6] = 5; //"Adjust to Ball (PD35)",
-// newWeightInput.Attributes[7] = 5; //"Punt Returns (Bj50)",
-// newWeightInput.Attributes[8] = 5; //"Kick Returns (Bj50)",
-// newWeightInput.Attributes[9] = 4; //"Endurance",
-// newWeightInput.Attributes[10] = 1; //"Special Teams"
+const AvoidDropsWR = 10;
+const GettingDownFieldWR = 16;
+const RouteRunningWR = 25; // 24
+const ThirdDownCatchingWR = 13;
+const BigPlayReceivingWR = 25; // 8
+const CourageWR = 6;
+const AdjustToBallWR = 5;
+const PuntReturnsWR = 1; // 5
+const KickReturnsWR = 1; // 5
+const EnduranceWR = 4;
+const SpecialTeamsWR = 1;
+
+const WRTotal = 
+    AvoidDropsWR
+    + GettingDownFieldWR
+    + RouteRunningWR
+    + ThirdDownCatchingWR
+    + BigPlayReceivingWR
+    + CourageWR
+    + AdjustToBallWR
+    + PuntReturnsWR
+    + KickReturnsWR
+    + EnduranceWR
+    + SpecialTeamsWR;
 
 // C:
 
-// newWeightInput.Attributes[0] = 24; //"Run Blocking (Ft100)",
-// newWeightInput.Attributes[1] = 17; //"Pass Blocking (Ag100)",
-// newWeightInput.Attributes[2] = 12;//"Blocking Strength (Bp100)",
-// newWeightInput.Attributes[3] = 7; //"Endurance (Bj100)",
-// newWeightInput.Attributes[4] = 0; //"Long Snapping"
+const RunBlockingC = 24;
+const PassBlockingC = 17;
+const BlockingStrengthC = 12;
+const EnduranceC = 7;
+const LongSnappingC = 0;
+
+const CTotal = 
+    RunBlockingC
+    + PassBlockingC
+    + BlockingStrengthC
+    + EnduranceC
+    + LongSnappingC;
 
 // G:
 
-// newWeightInput.Attributes[0] = 24; //"Run Blocking (Ft100)",
-// newWeightInput.Attributes[1] = 15; //"Pass Blocking (Ag100)",
-// newWeightInput.Attributes[2] = 13;//"Blocking Strength (Bp100)",
-// newWeightInput.Attributes[3] = 7; //"Endurance (Bj100)",
+const RunBlockingG = 24;
+const PassBlockingG = 15;
+const BlockingStrengthG = 13;
+const EnduranceG = 7;
+
+const GTotal = 
+    RunBlockingG
+    + PassBlockingG
+    + BlockingStrengthG
+    + EnduranceG;
 
 // T:
 
-// newWeightInput.Attributes[0] = 24; //"Run Blocking (Ft100)",
-// newWeightInput.Attributes[1] = 23; //"Pass Blocking (Ag100)",
-// newWeightInput.Attributes[2] = 13;//"Blocking Strength (Bp100)",
-// newWeightInput.Attributes[3] = 8; //"Endurance (Bj100)",
+const RunBlockingT = 24;
+const PassBlockingT = 23;
+const BlockingStrengthT = 13;
+const EnduranceT = 8;
+
+const TTotal = 
+    RunBlockingT
+    + PassBlockingT
+    + BlockingStrengthT
+    + EnduranceT;
 
 // P:
 
-// newWeightInput.Attributes[0] = 25; //"Kicking Power (Ft100)",
-// newWeightInput.Attributes[1] = 12; //"Punt Hang Time (Bp100)",
-// newWeightInput.Attributes[2] = 8; //"Directional Punting (So50)",
-// newWeightInput.Attributes[3] = 0; //"Kick Holding"
+const KickingPowerP = 25;
+const PuntHangTime = 12;
+const DirectionalPunting = 8;
+const KickHoldingP = 0;
+
+const PTotal = 
+    KickingPowerP
+    + PuntHangTime
+    + DirectionalPunting
+    + KickHoldingP;
 
 // K:
 
