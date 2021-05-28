@@ -31,37 +31,67 @@ const QBTotal =
     + ScrambleFrequencyValue
     + KickHoldingValue;
 
-// Running Back:
-// newWeightInput.Attributes[0] = 5; //"Breakaway Speed (Ft80)",
-// newWeightInput.Attributes[1] = 5; //"Power Inside (Bp100)",
-// newWeightInput.Attributes[2] = 8; //"Third Down Running (Ag33)",
-// newWeightInput.Attributes[3] = 25; //"Hole Recognition (So90)",
-// newWeightInput.Attributes[4] = 8; //"Elusiveness (Ag33)",
-// newWeightInput.Attributes[5] = 5; //"Speed to Outside (Bj50/Ft20)",
-// newWeightInput.Attributes[6] = 6; //"Blitz Pickup (PD90)",
-// newWeightInput.Attributes[7] = 6; //"Avoid Drops",
-// newWeightInput.Attributes[8] = 2; //"Getting Downfield (Ag33)",
-// newWeightInput.Attributes[9] = 6; //"Route Running",
-// newWeightInput.Attributes[10] = 2; //"Third Down Catching (PD05)",
-// newWeightInput.Attributes[11] = 1; //"Punt Returns",
-// newWeightInput.Attributes[12] = 1; //"Kick Returns",
-// newWeightInput.Attributes[13] = 15; //"Endurance (Bj50)",
-// newWeightInput.Attributes[14] = 2;//"Special Teams"
+// RB:
+const BreakawaySpeedRB = 5;
+const PowerInsideRB = 5;
+const ThirdDownRunningRB = 8;
+const HoleRecognitionRB = 25;
+const ElusivenessRB = 8;
+const SpeedToOutsideRB = 5;
+const BlitzPickupRB = 6;
+const AvoidDropsRB = 6;
+const GettingDownFieldRB = 2;
+const RouteRunningRB = 6;
+const ThirdDownCatchingRB = 2;
+const PuntReturnsRB = 1;
+const KickReturnsRB = 1;
+const EnduranceRB = 15;
+const SpecialTeamsRB = 2;
+
+const RBTotal = 
+    BreakawaySpeedRB
+    + PowerInsideRB
+    + ThirdDownRunningRB
+    + HoleRecognitionRB
+    + ElusivenessRB
+    + SpeedToOutsideRB
+    + BlitzPickupRB
+    + AvoidDropsRB
+    + GettingDownFieldRB
+    + RouteRunningRB
+    + ThirdDownCatchingRB
+    + PuntReturnsRB
+    + KickReturnsRB
+    + EnduranceRB
+    + SpecialTeamsRB;
 
 // FB:
+const RunBlockingFB = 22;
+const PassBlockingFB = 5;
+const BlockingStrengthFB = 3;
+const PowerInsideFB = 9;
+const ThirdDownRunningFB = 7;
+const HoleRecognitionFB = 14;
+const BlitzPickupFB = 12;
+const AvoidDropsFB = 6;
+const RouteRunningFB = 8;
+const ThirdDownCatchingFB = 3;
+const EnduranceFB = 5;
+const SpecialTeamsFB = 2;
 
-// newWeightInput.Attributes[0] = 22; //"Run Blocking (Bj50)",
-// newWeightInput.Attributes[1] = 5; //"Pass Blocking",
-// newWeightInput.Attributes[2] = 3; //"Blocking Strength",
-// newWeightInput.Attributes[3] = 9;//"Power Inside (Bp100)",
-// newWeightInput.Attributes[4] = 7; //"Third Down Running (Ag33Bj50)",
-// newWeightInput.Attributes[5] = 14; //"Hole Recognition (So50)",
-// newWeightInput.Attributes[6] = 12; //"Blitz Pickup (PD50)",
-// newWeightInput.Attributes[7] = 6; //"Avoid Drops",
-// newWeightInput.Attributes[8] = 8; //"Route Running (PD50)",
-// newWeightInput.Attributes[9] = 3; //"Third Down Catching",
-// newWeightInput.Attributes[10] = 5; //"Endurance",
-// newWeightInput.Attributes[11] = 2;//"Special Teams"
+const FBTotal =
+    RunBlockingFB
+    + PassBlockingFB
+    + BlockingStrengthFB
+    + PowerInsideFB
+    + ThirdDownRunningFB
+    + HoleRecognitionFB
+    + BlitzPickupFB
+    + AvoidDropsFB
+    + RouteRunningFB
+    + ThirdDownCatchingFB
+    + EnduranceFB
+    + SpecialTeamsFB;
 
 // TE:
 
