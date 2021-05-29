@@ -5,7 +5,7 @@ const { Player } = require("../models/players/player");
 const { League } = require("../models/league/league");
 const { FileHistory } = require("../models/fileHistory/fileHistory.js");
 
-const playerResultLimit = 25;
+const playerResultLimit = 15;
 
 const routes = (app) => {
   const router = express.Router();
@@ -36,6 +36,9 @@ const routes = (app) => {
         case "C":
           sort = { Overall_Projection_C: -1 };
           break;
+        case "CB":
+          sort = { Overall_Projection_CB: -1 };
+          break;
         case "DE":
           sort = { Overall_Projection_DE: -1 };
           break;
@@ -48,11 +51,26 @@ const routes = (app) => {
         case "G":
           sort = { Overall_Projection_G: -1 };
           break;
+        case "ILB":
+          sort = { Overall_Projection_ILB: -1 };
+          break;
+        case "K":
+          sort = { Overall_Projection_K: -1 };
+          break;
+        case "OLB":
+          sort = { Overall_Projection_OLB: -1 };
+          break;
+        case "P":
+          sort = { Overall_Projection_P: -1 };
+          break;
         case "QB":
           sort = { Overall_Projection_QB: -1 };
           break;
         case "RB":
           sort = { Overall_Projection_RB: -1 };
+          break;
+        case "S":
+          sort = { Overall_Projection_S: -1 };
           break;
         case "T":
           sort = { Overall_Projection_T: -1 };

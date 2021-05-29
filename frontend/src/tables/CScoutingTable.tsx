@@ -1,3 +1,5 @@
+import './TableStyles.scss';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -8,6 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { IDraftPlayer } from '../models/player';
 import { avg } from '../calculations/average';
+import { rowHighlightClass } from './RowHighlighter';
 
 const useStyles = makeStyles({
   table: {
@@ -43,10 +46,10 @@ export function CScoutingTable(props: IScoutingTable) {
                 {player.First_Name} {player.Last_Name}
               </TableCell>
               <TableCell align="right">{player.Overall_Projection_C?.toFixed(1)}</TableCell>
-              <TableCell align="right">{avg(player.Low_Run_Blocking, player.High_Run_Blocking)}</TableCell>
-              <TableCell align="right">{avg(player.Low_Pass_Blocking, player.High_Pass_Blocking)}</TableCell>
-              <TableCell align="right">{avg(player.Low_Blocking_Strength, player.High_Blocking_Strength)}</TableCell>
-              <TableCell align="right">{avg(player.Low_Endurance, player.High_Endurance)}</TableCell>
+              <TableCell align="right" className={rowHighlightClass(player.Low_Run_Blocking, player.High_Run_Blocking)}>{avg(player.Low_Run_Blocking, player.High_Run_Blocking)}</TableCell>
+              <TableCell align="right" className={rowHighlightClass(player.Low_Pass_Blocking, player.High_Pass_Blocking)}>{avg(player.Low_Pass_Blocking, player.High_Pass_Blocking)}</TableCell>
+              <TableCell align="right" className={rowHighlightClass(player.Low_Blocking_Strength, player.High_Blocking_Strength)}>{avg(player.Low_Blocking_Strength, player.High_Blocking_Strength)}</TableCell>
+              <TableCell align="right" className={rowHighlightClass(player.Low_Endurance, player.High_Endurance)}>{avg(player.Low_Endurance, player.High_Endurance)}</TableCell>
               <TableCell align="right">{avg(player.Low_Long_Snapping, player.High_Long_Snapping)}</TableCell>
             </TableRow>
           ))}

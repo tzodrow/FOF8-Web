@@ -1,3 +1,5 @@
+import './TableStyles.scss';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -8,6 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { IDraftPlayer } from '../models/player';
 import { avg } from '../calculations/average';
+import { rowHighlightClass } from './RowHighlighter';
 
 const useStyles = makeStyles({
   table: {
@@ -53,21 +56,21 @@ export function RBScoutingTable(props: IScoutingTable) {
                 {player.First_Name} {player.Last_Name}
               </TableCell>
               <TableCell align="right">{player.Overall_Projection_RB?.toFixed(1)}</TableCell>
-              <TableCell align="right">{avg(player.Low_Speed, player.High_Speed)}</TableCell>
-              <TableCell align="right">{avg(player.Low_Power_Inside, player.High_Power_Inside)}</TableCell>
-              <TableCell align="right">{avg(player['Low_Third-Down_Runs'], player['High_Third-Down_Runs'])}</TableCell>
-              <TableCell align="right">{avg(player.Low_Hole_Recognition, player.High_Hole_Recognition)}</TableCell>
-              <TableCell align="right">{avg(player.Low_Elusiveness, player.High_Elusiveness)}</TableCell>
-              <TableCell align="right">{avg(player.Low_Speed_Outside, player.High_Speed_Outside)}</TableCell>
-              <TableCell align="right">{avg(player.Low_Blitz_Pickup, player.High_Blitz_Pickup)}</TableCell>
-              <TableCell align="right">{avg(player.Low_Avoid_Drops, player.High_Avoid_Drops)}</TableCell>
-              <TableCell align="right">{avg(player.Low_Get_Downfield, player.High_Get_Downfield)}</TableCell>
-              <TableCell align="right">{avg(player.Low_Route_Running, player.High_Route_Running)}</TableCell>
-              <TableCell align="right">{avg(player['Low_Third-Down_Receiving'], player['High_Third-Down_Receiving'])}</TableCell>
-              <TableCell align="right">{avg(player.Low_Punt_Returns, player.High_Punt_Returns)}</TableCell>
-              <TableCell align="right">{avg(player.Low_Kick_Returns, player.High_Kick_Returns)}</TableCell>
-              <TableCell align="right">{avg(player.Low_Endurance, player.High_Endurance)}</TableCell>
-              <TableCell align="right">{avg(player.Low_Special_Teams, player.High_Special_Teams)}</TableCell>
+              <TableCell align="right" className={rowHighlightClass(player.Low_Speed, player.High_Speed)}>{avg(player.Low_Speed, player.High_Speed)}</TableCell>
+              <TableCell align="right" className={rowHighlightClass(player.Low_Power_Inside, player.High_Power_Inside)}>{avg(player.Low_Power_Inside, player.High_Power_Inside)}</TableCell>
+              <TableCell align="right" className={rowHighlightClass(player['Low_Third-Down_Runs'], player['High_Third-Down_Runs'])}>{avg(player['Low_Third-Down_Runs'], player['High_Third-Down_Runs'])}</TableCell>
+              <TableCell align="right" className={rowHighlightClass(player.Low_Hole_Recognition, player.High_Hole_Recognition)}>{avg(player.Low_Hole_Recognition, player.High_Hole_Recognition)}</TableCell>
+              <TableCell align="right" className={rowHighlightClass(player.Low_Elusiveness, player.High_Elusiveness)}>{avg(player.Low_Elusiveness, player.High_Elusiveness)}</TableCell>
+              <TableCell align="right" className={rowHighlightClass(player.Low_Speed_Outside, player.High_Speed_Outside)}>{avg(player.Low_Speed_Outside, player.High_Speed_Outside)}</TableCell>
+              <TableCell align="right" className={rowHighlightClass(player.Low_Blitz_Pickup, player.High_Blitz_Pickup)}>{avg(player.Low_Blitz_Pickup, player.High_Blitz_Pickup)}</TableCell>
+              <TableCell align="right" className={rowHighlightClass(player.Low_Avoid_Drops, player.High_Avoid_Drops)}>{avg(player.Low_Avoid_Drops, player.High_Avoid_Drops)}</TableCell>
+              <TableCell align="right" className={rowHighlightClass(player.Low_Get_Downfield, player.High_Get_Downfield)}>{avg(player.Low_Get_Downfield, player.High_Get_Downfield)}</TableCell>
+              <TableCell align="right" className={rowHighlightClass(player.Low_Route_Running, player.High_Route_Running)}>{avg(player.Low_Route_Running, player.High_Route_Running)}</TableCell>
+              <TableCell align="right" className={rowHighlightClass(player['Low_Third-Down_Receiving'], player['High_Third-Down_Receiving'])}>{avg(player['Low_Third-Down_Receiving'], player['High_Third-Down_Receiving'])}</TableCell>
+              <TableCell align="right" className={rowHighlightClass(player.Low_Punt_Returns, player.High_Punt_Returns)}>{avg(player.Low_Punt_Returns, player.High_Punt_Returns)}</TableCell>
+              <TableCell align="right" className={rowHighlightClass(player.Low_Kick_Returns, player.High_Kick_Returns)}>{avg(player.Low_Kick_Returns, player.High_Kick_Returns)}</TableCell>
+              <TableCell align="right" className={rowHighlightClass(player.Low_Endurance, player.High_Endurance)}>{avg(player.Low_Endurance, player.High_Endurance)}</TableCell>
+              <TableCell align="right" className={rowHighlightClass(player.Low_Special_Teams, player.High_Special_Teams)}>{avg(player.Low_Special_Teams, player.High_Special_Teams)}</TableCell>
             </TableRow>
           ))}
         </TableBody>

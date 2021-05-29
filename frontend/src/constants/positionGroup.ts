@@ -7,6 +7,8 @@ export enum PositionGroup {
     C = "C",
     G = "G",
     T = "T",
+    K = "K",
+    P = "P",
     DE = "DE",
     DT = "DT",
     ILB = "ILB",

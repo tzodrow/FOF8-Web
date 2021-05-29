@@ -22,7 +22,7 @@ interface IScoutingTable {
     players: Array<IDraftPlayer>;
 }
 
-export function TScoutingTable(props: IScoutingTable) {
+export function KScoutingTable(props: IScoutingTable) {
   const classes = useStyles();
 
   return (
@@ -32,10 +32,10 @@ export function TScoutingTable(props: IScoutingTable) {
           <TableRow>
             <TableCell>Name</TableCell>
             <TableCell align="right">Overall</TableCell>
-            <TableCell align="right">Run Blocking</TableCell>
-            <TableCell align="right">Pass Blocking</TableCell>
-            <TableCell align="right">Blocking Strength</TableCell>
-            <TableCell align="right">Endurance</TableCell>
+            <TableCell align="right">Kicking Accuracy</TableCell>
+            <TableCell align="right">Kicking Power</TableCell>
+            <TableCell align="right">Kickoff Distance</TableCell>
+            <TableCell align="right">Kickoff Hangtime</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -44,11 +44,11 @@ export function TScoutingTable(props: IScoutingTable) {
               <TableCell component="th" scope="row">
                 {player.First_Name} {player.Last_Name}
               </TableCell>
-              <TableCell align="right">{player.Overall_Projection_T?.toFixed(1)}</TableCell>
-              <TableCell align="right" className={rowHighlightClass(player.Low_Run_Blocking, player.High_Run_Blocking)}>{avg(player.Low_Run_Blocking, player.High_Run_Blocking)}</TableCell>
-              <TableCell align="right" className={rowHighlightClass(player.Low_Pass_Blocking, player.High_Pass_Blocking)}>{avg(player.Low_Pass_Blocking, player.High_Pass_Blocking)}</TableCell>
-              <TableCell align="right" className={rowHighlightClass(player.Low_Blocking_Strength, player.High_Blocking_Strength)}>{avg(player.Low_Blocking_Strength, player.High_Blocking_Strength)}</TableCell>
-              <TableCell align="right" className={rowHighlightClass(player.Low_Endurance, player.High_Endurance)}>{avg(player.Low_Endurance, player.High_Endurance)}</TableCell>
+              <TableCell align="right">{player.Overall_Projection_K?.toFixed(1)}</TableCell>
+              <TableCell align="right" className={rowHighlightClass(player.Low_Kicking_Accuracy, player.High_Kicking_Accuracy)}>{avg(player.Low_Kicking_Accuracy, player.High_Kicking_Accuracy)}</TableCell>
+              <TableCell align="right" className={rowHighlightClass(player.Low_Kicking_Power, player.High_Kicking_Power)}>{avg(player.Low_Kicking_Power, player.High_Kicking_Power)}</TableCell>
+              <TableCell align="right" className={rowHighlightClass(player.Low_Kickoff_Distance, player.High_Kickoff_Distance)}>{avg(player.Low_Kickoff_Distance, player.High_Kickoff_Distance)}</TableCell>
+              <TableCell align="right" className={rowHighlightClass(player.Low_Kickoff_Hang_Time, player.High_Kickoff_Hang_Time)}>{avg(player.Low_Kickoff_Hang_Time, player.High_Kickoff_Hang_Time)}</TableCell>
             </TableRow>
           ))}
         </TableBody>

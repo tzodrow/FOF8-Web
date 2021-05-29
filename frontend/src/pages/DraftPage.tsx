@@ -18,6 +18,12 @@ import { GScoutingTable } from "../tables/GScoutingTable";
 import { TScoutingTable } from "../tables/TScoutingTable";
 import { DEScoutingTable } from "../tables/DEScoutingTable";
 import { DTScoutingTable } from "../tables/DTScoutingTable";
+import { CBScoutingTable } from "../tables/CBScoutingTable";
+import { KScoutingTable } from "../tables/KScoutingTable";
+import { OLBScoutingTable } from "../tables/OLBScoutingTable";
+import { PScoutingTable } from "../tables/PScoutingTable";
+import { ILBScoutingTable } from "../tables/ILBScoutingTable";
+import { SScoutingTable } from "../tables/SScoutingTable";
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -46,7 +52,6 @@ function TabPanel(props: React.PropsWithChildren<ITabPanelProps>) {
         >
             {value === index && (
                 <Box p={3}>
-                    {/* <Typography>{children}</Typography> */}
                     {children}
                 </Box>
             )}
@@ -58,6 +63,8 @@ const scoutingTableRender = (positionGroup: PositionGroup, players: Array<IDraft
     switch (positionGroup) {
         case PositionGroup.C:
             return (<CScoutingTable players={players} />);
+        case PositionGroup.CB:
+            return (<CBScoutingTable players={players} />);
         case PositionGroup.DE:
             return (<DEScoutingTable players={players} />);
         case PositionGroup.DT:
@@ -66,10 +73,20 @@ const scoutingTableRender = (positionGroup: PositionGroup, players: Array<IDraft
             return (<FBScoutingTable players={players} />);
         case PositionGroup.G:
             return (<GScoutingTable players={players} />);
+        case PositionGroup.ILB:
+            return (<ILBScoutingTable players={players} />);
+        case PositionGroup.K:
+            return (<KScoutingTable players={players} />);
+        case PositionGroup.OLB:
+            return (<OLBScoutingTable players={players} />);
+        case PositionGroup.P:
+            return (<PScoutingTable players={players} />);
         case PositionGroup.QB:
             return (<QBScoutingTable players={players} />);
         case PositionGroup.RB:
             return (<RBScoutingTable players={players} />);
+        case PositionGroup.S:
+            return (<SScoutingTable players={players} />);
         case PositionGroup.T:
             return (<TScoutingTable players={players} />);
         case PositionGroup.TE: 
@@ -119,6 +136,7 @@ export function DraftPage() {
 
     const onChangePositionGroup = (event: React.ChangeEvent<{ name?: string, value: unknown }>) => {
         setPositionGroup(event.target.value as string);
+        setSkip(0);
     };
 
     const onChangeTab = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -152,7 +170,7 @@ export function DraftPage() {
                 </FormControl>
                 <ButtonGroup color="primary">
                     <Button disabled={skip === 0} onClick={() => setSkip(prev => prev - 1)}>Previous</Button>
-                    <Button disabled={draftPlayers.length < 25} onClick={() => setSkip(prev => prev + 1)}>Next</Button>
+                    <Button disabled={draftPlayers.length < 15} onClick={() => setSkip(prev => prev + 1)}>Next</Button>
                 </ButtonGroup>
             </div>
             <Tabs
