@@ -1,7 +1,7 @@
 import { Button, ButtonGroup } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { getPlayers } from "../api/axiosApi";
-import { PlayerTable } from "../components/PlayerTable";
+import { PlayerTable } from "../tables/PlayerTable";
 import { ILeague } from "../models/league";
 import { IPlayerInformation } from "../models/player";
 import { useAppSelector } from "../reducers/hooks";

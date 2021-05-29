@@ -15,7 +15,7 @@ const routes = (app) => {
       serverResponses.sendError(res, messages.BAD_REQUEST, "Missing LeagueId.");
     } else {
       Player
-        .find({ LeagueId: req.query.LeagueId, Season_1_Year: { $gt: 0 } }, { _id: 0, Season_1_Year: 1 })
+        .find({ LeagueId: req.query.LeagueId, Season_1_Year: { $gte: 0 } }, { _id: 0, Season_1_Year: 1 })
         .distinct("Season_1_Year")
         .then((dys) => {
           serverResponses.sendSuccess(res, messages.SUCCESSFUL, dys);
@@ -31,6 +31,41 @@ const routes = (app) => {
       serverResponses.sendError(res, messages.BAD_REQUEST, "Missing LeagueId.");
     } else {
       const skip = req.query.Skip && !isNaN(req.query.Skip) ? parseInt(req.query.Skip) : 0;
+      let sort;
+      switch(req.query.PositionGroup) {
+        case "C":
+          sort = { Overall_Projection_C: -1 };
+          break;
+        case "DE":
+          sort = { Overall_Projection_DE: -1 };
+          break;
+        case "DT":
+          sort = { Overall_Projection_DT: -1 };
+          break;
+        case "FB":
+          sort = { Overall_Projection_FB: -1 };
+          break;
+        case "G":
+          sort = { Overall_Projection_G: -1 };
+          break;
+        case "QB":
+          sort = { Overall_Projection_QB: -1 };
+          break;
+        case "RB":
+          sort = { Overall_Projection_RB: -1 };
+          break;
+        case "T":
+          sort = { Overall_Projection_T: -1 };
+          break;
+        case "TE":
+          sort = { Overall_Projection_TE: -1 };
+          break;
+        case "WR":
+          sort = { Overall_Projection_WR: -1 };
+          break;
+        default:
+          sort = { Player_ID: -1 }
+      }
       Player
         .find(
           {
@@ -42,7 +77,7 @@ const routes = (app) => {
           {
             limit: playerResultLimit,
             skip: skip * playerResultLimit,
-            sort: { Overall_Projection_QB: -1 }
+            sort: sort
           })
         .then((fhs) => {
           serverResponses.sendSuccess(res, messages.SUCCESSFUL, fhs);

@@ -1,14 +1,23 @@
 import { Box, Button, ButtonGroup, FormControl, InputLabel, makeStyles, MenuItem, Select, Tab, Tabs } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { getDraftPlayers, getDraftYears } from "../api/axiosApi";
-import { DraftTable } from "../components/DraftTable";
-import { ScoutingTable } from "../components/ScoutingTable";
+import { CombineTable } from "../tables/CombineTable";
+import { QBScoutingTable } from "../tables/QBScoutingTable";
+import { RBScoutingTable } from "../tables/RBScoutingTable";
 import { getPositionGroups, PositionGroup } from "../constants/positionGroup";
 import { ILeague } from "../models/league";
 import { IDraftPlayer } from "../models/player";
 import { useAppSelector } from "../reducers/hooks";
 
 import './DraftPage.scss';
+import { WRScoutingTable } from "../tables/WRScoutingTable";
+import { TEScoutingTable } from "../tables/TEScoutingTable";
+import { FBScoutingTable } from "../tables/FBScoutingTable";
+import { CScoutingTable } from "../tables/CScoutingTable";
+import { GScoutingTable } from "../tables/GScoutingTable";
+import { TScoutingTable } from "../tables/TScoutingTable";
+import { DEScoutingTable } from "../tables/DEScoutingTable";
+import { DTScoutingTable } from "../tables/DTScoutingTable";
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -45,6 +54,33 @@ function TabPanel(props: React.PropsWithChildren<ITabPanelProps>) {
     );
 }
 
+const scoutingTableRender = (positionGroup: PositionGroup, players: Array<IDraftPlayer>) => {
+    switch (positionGroup) {
+        case PositionGroup.C:
+            return (<CScoutingTable players={players} />);
+        case PositionGroup.DE:
+            return (<DEScoutingTable players={players} />);
+        case PositionGroup.DT:
+            return (<DTScoutingTable players={players} />);
+        case PositionGroup.FB:
+            return (<FBScoutingTable players={players} />);
+        case PositionGroup.G:
+            return (<GScoutingTable players={players} />);
+        case PositionGroup.QB:
+            return (<QBScoutingTable players={players} />);
+        case PositionGroup.RB:
+            return (<RBScoutingTable players={players} />);
+        case PositionGroup.T:
+            return (<TScoutingTable players={players} />);
+        case PositionGroup.TE: 
+            return (<TEScoutingTable players={players} />);
+        case PositionGroup.WR:
+            return (<WRScoutingTable players={players} />);
+        default:
+            return <span />;
+    }
+}
+
 export function DraftPage() {
     const league: ILeague | undefined = useAppSelector(state => state.league.league);
 
@@ -72,7 +108,7 @@ export function DraftPage() {
     }, [league])
 
     useEffect(() => {
-        if (league?._id && draftYear) {
+        if (league?._id && draftYear !== undefined) {
             getDraftPlayers(league._id, skip, positionGroup, draftYear, setDraftPlayers);
         }
     }, [league, skip, draftYear, positionGroup]);
@@ -97,10 +133,10 @@ export function DraftPage() {
                     <Select
                         labelId={"draft-year-select-label"}
                         id={"draft-year-select"}
-                        value={draftYear ? draftYear : ""}
+                        value={draftYear !== undefined ? draftYear : ""}
                         onChange={onChangeDraftYear}
                     >
-                        {draftYears.map((dy, index) => <MenuItem key={index} value={dy}>{dy}</MenuItem>)}
+                        {draftYears.map((dy, index) => <MenuItem key={index} value={dy}>{dy ? dy : 'Current'}</MenuItem>)}
                     </Select>
                 </FormControl>
                 <FormControl className={classes.formControl}>
@@ -135,14 +171,12 @@ export function DraftPage() {
                 Draft Board
             </TabPanel>
             <TabPanel value={tab} index={1}>
-                <DraftTable
+                <CombineTable
                     players={draftPlayers}
                 />
             </TabPanel>
             <TabPanel value={tab} index={2}>
-                <ScoutingTable 
-                    players={draftPlayers}
-                />
+                {scoutingTableRender(positionGroup as PositionGroup, draftPlayers)}
             </TabPanel>
             <TabPanel value={tab} index={3}>
                 Analysis

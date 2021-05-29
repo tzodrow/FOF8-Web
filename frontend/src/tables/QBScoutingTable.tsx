@@ -19,7 +19,7 @@ interface IScoutingTable {
     players: Array<IDraftPlayer>;
 }
 
-export function ScoutingTable(props: IScoutingTable) {
+export function QBScoutingTable(props: IScoutingTable) {
   const classes = useStyles();
 
   return (
@@ -28,19 +28,20 @@ export function ScoutingTable(props: IScoutingTable) {
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
-            <TableCell align="right">Ovr</TableCell>
-            <TableCell align="right">ScnP</TableCell>
-            <TableCell align="right">ShoP</TableCell>
-            <TableCell align="right">MP</TableCell>
-            <TableCell align="right">LP</TableCell>
-            <TableCell align="right">DP</TableCell>
-            <TableCell align="right">TDP</TableCell>
-            <TableCell align="right">Acc</TableCell>
-            <TableCell align="right">Time</TableCell>
-            <TableCell align="right">SR</TableCell>
-            <TableCell align="right">RD</TableCell>
-            <TableCell align="right">TMO</TableCell>
-            <TableCell align="right">SF</TableCell>
+            <TableCell align="right">Overall</TableCell>
+            <TableCell align="right">Screen Passes</TableCell>
+            <TableCell align="right">Short Passes</TableCell>
+            <TableCell align="right">Medium Passes</TableCell>
+            <TableCell align="right">Long Passes</TableCell>
+            <TableCell align="right">Deep Passes</TableCell>
+            <TableCell align="right">Third Down Passes</TableCell>
+            <TableCell align="right">Accuracy</TableCell>
+            <TableCell align="right">Timing</TableCell>
+            <TableCell align="right">Sense Rush</TableCell>
+            <TableCell align="right">Read Defense</TableCell>
+            <TableCell align="right">Two Minutes Drill</TableCell>
+            <TableCell align="right">Scramble Frequency</TableCell>
+            <TableCell align="right">Kick Holding</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -62,6 +63,7 @@ export function ScoutingTable(props: IScoutingTable) {
               <TableCell align="right">{avg(player.Low_Read_Defense, player.High_Read_Defense)}</TableCell>
               <TableCell align="right">{avg(player['Low_Two-Minute_Offense'], player['High_Two-Minute_Offense'])}</TableCell>
               <TableCell align="right">{avg(player.Low_Run_Frequency, player.High_Run_Frequency)}</TableCell>
+              <TableCell align="right">{avg(player.Low_Kick_Holding, player.High_Kick_Holding)}</TableCell>
             </TableRow>
           ))}
         </TableBody>

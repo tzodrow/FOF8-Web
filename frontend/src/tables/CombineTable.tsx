@@ -18,7 +18,7 @@ interface IDraftTableProps {
     players: Array<IDraftPlayer>;
 }
 
-export function DraftTable(props: IDraftTableProps) {
+export function CombineTable(props: IDraftTableProps) {
   const classes = useStyles();
 
   return (
@@ -47,16 +47,16 @@ export function DraftTable(props: IDraftTableProps) {
                 {player.First_Name} {player.Last_Name}
               </TableCell>
               <TableCell align="right">{player.Position_Group}</TableCell>
-              <TableCell align="right">{player.Height}</TableCell>
+              <TableCell align="right">{(player.Height / 12).toFixed(0)}-{player.Height % 12}</TableCell>
               <TableCell align="right">{player.Weight}</TableCell>
-              <TableCell align="right">{player.Dash}</TableCell>
+              <TableCell align="right">{(player.Dash / 100).toFixed(2)}</TableCell>
               <TableCell align="right">{player.Solecismic}</TableCell>
               <TableCell align="right">{player.Strength}</TableCell>
-              <TableCell align="right">{player.Agility}</TableCell>
-              <TableCell align="right">{player.Jump}</TableCell>
+              <TableCell align="right">{(player.Agility / 100).toFixed(2)}</TableCell>
+              <TableCell align="right">{(player.Jump / 12).toFixed(0)}-{player.Jump % 12}</TableCell>
               <TableCell align="right">{player.Position_Specific}</TableCell>
-              <TableCell align="right">{player.Developed}</TableCell>
-              <TableCell align="right">{player.Grade}</TableCell>
+              <TableCell align="right">{player.Developed}%</TableCell>
+              <TableCell align="right">{(player.Grade / 10).toFixed(1)}</TableCell>
             </TableRow>
           ))}
         </TableBody>
