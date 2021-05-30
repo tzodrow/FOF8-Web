@@ -1,8 +1,10 @@
 import { LinearProgress } from "@material-ui/core";
 import { ParseResult, Parser } from "papaparse";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CSVReader } from "react-papaparse";
 import { upsertRating, upsertRecord } from "../api/axiosApi";
+import { overallProjectionC, overallProjectionCB, overallProjectionDE, overallProjectionDT, overallProjectionFB, overallProjectionG, overallProjectionILB, overallProjectionK, overallProjectionOLB, overallProjectionP, overallProjectionQB, overallProjectionRB, overallProjectionS, overallProjectionT, overallProjectionTE, overallProjectionWR } from "../calculations/overallRatingProjector";
+import { IDraftPlayer } from "../models/player";
 import { IRecord } from "../models/record";
 
 import "./FileUpload.scss";
@@ -33,7 +35,7 @@ export function FileUpload(props: IFileUploadProps) {
 
     useEffect(() => {
         const csvFile = getFile();
-        
+
         if (csvFile !== undefined && csvUploaded) {
             setDataUploaded(0);
             setFileSize(csvFile?.size);
@@ -58,6 +60,34 @@ export function FileUpload(props: IFileUploadProps) {
             if (result.meta.fields?.some(f => f === "Scouting")) {
                 upsertRating(
                     { ...result.data, LeagueId: props.leagueId },
+                    () => {
+                        setDataUploaded((prev) => prev + result.meta.cursor);
+                        parser.resume();
+                    },
+                    () => parser.abort());
+            } else if (result.meta.fields?.some(f => f === "Interviewed")) {
+                const draftPlayer = result.data as unknown as IDraftPlayer;
+                upsertRecord(
+                    {
+                        ...result.data,
+                        LeagueId: props.leagueId,
+                        Overall_Projection_C: overallProjectionC(draftPlayer),
+                        Overall_Projection_CB: overallProjectionCB(draftPlayer),
+                        Overall_Projection_DE: overallProjectionDE(draftPlayer),
+                        Overall_Projection_DT: overallProjectionDT(draftPlayer),
+                        Overall_Projection_FB: overallProjectionFB(draftPlayer),
+                        Overall_Projection_G: overallProjectionG(draftPlayer),
+                        Overall_Projection_ILB: overallProjectionILB(draftPlayer),
+                        Overall_Projection_K: overallProjectionK(draftPlayer),
+                        Overall_Projection_OLB: overallProjectionOLB(draftPlayer),
+                        Overall_Projection_P: overallProjectionP(draftPlayer),
+                        Overall_Projection_QB: overallProjectionQB(draftPlayer),
+                        Overall_Projection_RB: overallProjectionRB(draftPlayer),
+                        Overall_Projection_S: overallProjectionS(draftPlayer),
+                        Overall_Projection_T: overallProjectionT(draftPlayer),
+                        Overall_Projection_TE: overallProjectionTE(draftPlayer),
+                        Overall_Projection_WR: overallProjectionWR(draftPlayer)
+                    },
                     () => {
                         setDataUploaded((prev) => prev + result.meta.cursor);
                         parser.resume();

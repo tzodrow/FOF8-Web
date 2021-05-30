@@ -7,5 +7,15 @@
     text-align: center;
     background-color: #efefef;
     padding: 1.2em;
+
+    .main-header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .icon-header {
+        display: flex;
+      }
+    }
   }
 }

@@ -3,6 +3,7 @@ import axios, { AxiosResponse } from "axios";
 import { IRecord } from '../models/record';
 import { ILeague } from '../models/league';
 import { IFileHistory } from '../models/fileHistory';
+import { IDraftPlayer, IPlayerInformation } from '../models/player';
 
 const myAxiosInstance = axios.create();
 myAxiosInstance.defaults.raxConfig = {
@@ -51,9 +52,9 @@ export const upsertRating = (record: IRecord | Array<IRecord>, successCallback?:
     });
 }
 
-export const getPlayers = (leagueId: string, setPlayers: (players: Array<IRecord>) => void) => {
+export const getPlayers = (leagueId: string, skip: number, setPlayers: (players: Array<IPlayerInformation>) => void) => {
   myAxiosInstance
-    .get(`/api/player?LeagueId=${leagueId}`)
+    .get(`/api/player?LeagueId=${leagueId}&Skip=${skip}`)
     .then(res => {
       setPlayers(res.data.data);
     })
@@ -116,3 +117,27 @@ export const completeFileHistory = (fileHistory: IFileHistory) => {
       console.error(e);
     });
 }
+
+export const getDraftYears = (leagueId: string, setDraftYears: (draftYears: Array<number>) => void) => {
+  myAxiosInstance
+    .get(`/api/draft/years?LeagueId=${leagueId}`)
+    .then(res => {
+      setDraftYears(res.data.data);
+    })
+    .catch(e => {
+      console.error(e);
+    });
+}
+
+export const getDraftPlayers = (leagueId: string, skip: number, positionGroup: string, draftYear: number, setPlayers: (players: Array<IDraftPlayer>) => void) => {
+  myAxiosInstance
+    .get(`/api/draft/players/${draftYear}?LeagueId=${leagueId}&Skip=${skip}&PositionGroup=${positionGroup}`)
+    .then(res => {
+      setPlayers(res.data.data);
+    })
+    .catch(e => {
+      console.error(e);
+    });
+}
+
+

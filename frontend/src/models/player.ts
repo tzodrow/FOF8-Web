@@ -1,235 +1,130 @@
-export interface IPlayer extends IQuarterbackPlayer, ISkillPositionPlayer, IDraftPlayer {
-    playerId: number;
-    firstName: string;
-    lastName: string;
-    bornDay: number;
-    bornMonth: number;
-    bornYear: number;
-    collegeId: number;
-    height: number;
-    homeStateId: number;
-    homeTownId: number;
-    redFlag: boolean;
-    weight: number;
+import { IRecord } from './record';
+
+export interface IPlayer extends IRecord {
+    First_Name: string;
+    Last_Name: string;
     
-    position: string;
-    positionGroup: string;
-    "" : string;
+    College: string | number;
+    Height: number;
+    Weight: number;
 }
 
-export interface IQuarterbackPlayer {
-    highAccuracy: number;
-    highKickHolding: number;
-    highLongPasses: number;
-    highMediumPasses: number;
-    highRunFrequency: number;
-    highScreenPasses: number;
-    highSenseRush: number;
-    highShortPasses: number;
-    highThirdDown: number;
-    highTiming: number;
-    highTwoMinuteOffense: number;
+export interface IDraftPlayer extends IPlayer {
+    Agility: number;
+    Dash: number;
+    Position_Group: string;
+    Grade: number;
+    Jump: number;
+    Position_Specific: number;
+    Solecismic: number;
+    Strength: number;
+    Developed: number;
+	Interviewed: number;
 
-    lowAccuracy: number;
-    lowDeepPasses: number;
-    lowKickHolding: number;
-    lowLongPasses: number;
-    lowMediumPasses: number;
-    lowReadDefense: number;
-    lowRunFrequency: number;
-    lowScreenPasses: number;
-    lowSenseRush: number;
-    lowShortPasses: number;
-    lowThirdDown: number;
-    lowTiming: number;
-    lowTwoMinuteOffense: number;
+    High_Accuracy: number;
+	High_Adjust_to_Ball: number;
+	High_Avoid_Drops: number;
+	High_Big_Play_Receiving: number;
+	High_Blitz_Pickup: number;
+	High_Blocking_Strength: number;
+	"High_Bump-and-Run_Defense": number;
+	High_Courage: number;
+	High_Deep_Passes: number;
+	High_Directional_Punting: number;
+	High_Elusiveness: number;
+	High_Endurance: number;
+	High_Get_Downfield: number;
+	High_Hang_Time: number;
+	High_Hole_Recognition: number;
+	High_Intercepting: number;
+	High_Kick_Holding: number;
+	High_Kick_Returns: number;
+	High_Kicking_Accuracy: number;
+	High_Kicking_Power: number;
+	High_Kickoff_Distance: number;
+	High_Kickoff_Hang_Time: number;
+	High_Long_Passes: number;
+	High_Long_Snapping: number;
+	"High_Man-to-Man_Defense": number;
+	High_Medium_Passes: number;
+	High_Pass_Blocking: number;
+	High_Pass_Rush_Strength: number;
+	High_Pass_Rush_Technique: number;
+	High_Play_Diagnosis: number;
+	High_Power_Inside: number;
+	High_Punishing_Hitter: number;
+	High_Punt_Returns: number;
+	High_Punting_Power: number;
+	High_Read_Defense: number;
+	High_Route_Running: number;
+	High_Run_Blocking: number;
+	High_Run_Defense: number;
+	High_Run_Frequency: number;
+	High_Screen_Passes: number;
+	High_Sense_Rush: number;
+	High_Short_Passes: number;
+	High_Special_Teams: number;
+	High_Speed: number;
+	High_Speed_Outside: number;
+	"High_Third-Down_Receiving": number;
+	"High_Third-Down_Runs": number;
+	High_Third_Down: number;
+	High_Timing: number;
+	"High_Two-Minute_Offense": number;
+	High_Zone_Defense: number;
+	Low_Accuracy: number;
+	Low_Adjust_to_Ball: number;
+	Low_Avoid_Drops: number;
+	Low_Big_Play_Receiving: number;
+	Low_Blitz_Pickup: number;
+	Low_Blocking_Strength: number;
+	"Low_Bump-and-Run_Defense": number;
+	Low_Courage: number;
+	Low_Deep_Passes: number;
+	Low_Directional_Punting: number;
+	Low_Elusiveness: number;
+	Low_Endurance: number;
+	Low_Get_Downfield: number;
+	Low_Hang_Time: number;
+	Low_Hole_Recognition: number;
+	Low_Intercepting: number;
+	Low_Kick_Holding: number;
+	Low_Kick_Returns: number;
+	Low_Kicking_Accuracy: number;
+	Low_Kicking_Power: number;
+	Low_Kickoff_Distance: number;
+	Low_Kickoff_Hang_Time: number;
+	Low_Long_Passes: number;
+	Low_Long_Snapping: number;
+	"Low_Man-to-Man_Defense": number;
+	Low_Medium_Passes: number;
+	Low_Pass_Blocking: number;
+	Low_Pass_Rush_Strength: number;
+	Low_Pass_Rush_Technique: number;
+	Low_Play_Diagnosis: number;
+	Low_Power_Inside: number;
+	Low_Punishing_Hitter: number;
+	Low_Punt_Returns: number;
+	Low_Punting_Power: number;
+	Low_Read_Defense: number;
+	Low_Route_Running: number;
+	Low_Run_Blocking: number;
+	Low_Run_Defense: number;
+	Low_Run_Frequency: number;
+	Low_Screen_Passes: number;
+	Low_Sense_Rush: number;
+	Low_Short_Passes: number;
+	Low_Special_Teams: number;
+	Low_Speed: number;
+	Low_Speed_Outside: number;
+	"Low_Third-Down_Receiving": number;
+	"Low_Third-Down_Runs": number;
+	Low_Third_Down: number;
+	Low_Timing: number;
+	"Low_Two-Minute_Offense": number;
+	Low_Zone_Defense: number;
 }
 
-export interface ISkillPositionPlayer {
-    highAdjusttoBall: number;
-    highAvoidDrops: number;
-    highBigPlayReceiving: number;
-    highBlitzPickup: number;
-    highBlockingStrength: number;
-    highBumpandRunDefense: number;
-    highDeepPasses: number;
-    highDirectionalPunting: number;
-    highElusiveness: number;
-    highEndurance: number;
-    highGetDownfield: number;
-    highHangTime: number;
-    highHoleRecognition: number;
-    highIntercepting: number;
-    highKickReturns: number;
-    highKickingAccuracy: number;
-    highKickingPower: number;
-    highKickoffDistance: number;
-    highKickoffHangTime: number;
-    highLongSnapping: number;
-    highMantoManDefense: number;
-    highPassBlocking: number;
-    highPassRushStrength: number;
-    highPassRushTechnique: number;
-    highPlayDiagnosis: number;
-    highPowerInside: number;
-    highPunishingHitter: number;
-    highPuntReturns: number;
-    highPuntingPower: number;
-    highReadDefense: number;
-    highRunBlocking: number;
-    highRunDefense: number;
-    highSpecialTeams: number;
-    highSpeed: number;
-    highSpeedOutside: number;
-    highThirdDownReceiving: number;
-    highThirdDownRuns: number;
-    highZoneDefense: number;
-    highCourage: number;
-    highRouteRunning: number;
-
-    lowAdjusttoBall: number;
-    lowAvoidDrops: number;
-    lowBigPlayReceiving: number;
-    lowBlitzPickup: number;
-    lowBlockingStrength: number;
-    lowBumpandRunDefense: number;
-    lowDirectionalPunting: number;
-    lowElusiveness: number;
-    lowEndurance: number;
-    lowGetDownfield: number;
-    lowHangTime: number;
-    lowHoleRecognition: number;
-    lowIntercepting: number;
-    lowKickReturns: number;
-    lowKickingAccuracy: number;
-    lowKickingPower: number;
-    lowKickoffDistance: number;
-    lowKickoffHangTime: number;
-    lowLongSnapping: number;
-    lowMantoManDefense: number;
-    lowPassBlocking: number;
-    lowPassRushStrength: number;
-    lowPassRushTechnique: number;
-    lowPlayDiagnosis: number;
-    lowPowerInside: number;
-    lowPunishingHitter: number;
-    lowPuntReturns: number;
-    lowPuntingPower: number;
-    lowRunBlocking: number;
-    lowRunDefense: number;
-    lowSpecialTeams: number;
-    lowSpeed: number;
-    lowSpeedOutside: number;
-    lowThirdDownReceiving: number;
-    lowThirdDownRuns: number;
-    lowZoneDefense: number;
-    lowCourage: number;
-    lowRouteRunning: number;
+export interface IPlayerInformation extends IPlayer {
+    Position: string;
 }
-
-export interface IDraftPlayer {
-    agility: number;
-    college: string;
-    dash: number;
-    developed: number;
-    grade: number;
-    jump: number;
-    solecismic: number;
-    strength: number;
-    volatility: number;
-}
-
-/*
-bonusYearFive: 0
-bonusYearFour: 0
-bonusYearOne: 0
-bonusYearThree: 0
-bonusYearTwo: 0
-
-careerGameCount: 0
-championshipRingCount: 0
-choosenTeamId: 0
-
-contractLength: 0
-
-designation: "None"
-
-draftPosition: 0
-draftRound: 0
-draftTeamId: 0
-draftYear: 0
-experience: 1
-
-forthQuarterComebackCount: 0
-
-hallOfFame: false
-hallOfFamePoints: 0
-hallOfFameYear: 0
-health: "Good"
-
-holdout: false
-
-howAcquired: "None"
-injuryLength: 0
-injuryType: "0"
-intelligence: 0
-interviewed: false
-jump: 116
-juniorFlag: "0"
-lastName: "Tyler"
-leadership: 0
-
-loyalty: 0
-mentor: 0
-nickname: ""
-percentageOfVote: 0
-personalityStrength: 0
-
-playerOfGameCount: 0
-playerOfTheWeekCount: 0
-playerOfTheWeekWinCount: 0
-playforWinner: 0
-popularity: 59
-position: "SLB"
-positionGroup: "OLB"
-positionSpecific: 33
-quarterbackLossCount: 0
-quarterbackTieCount: 0
-quarterbackWinCount: 0
-
-salaryYearFive: 0
-salaryYearFour: 0
-salaryYearOne: 0
-salaryYearThree: 0
-salaryYearTwo: 0
-seasonCount: 0
-seasonEightYear: 0
-seasonEightteenYear: 0
-seasonElvenYear: 0
-seasonFiftheenYear: 0
-seasonFiveYear: 0
-seasonFourYear: 0
-seasonFourteenYear: 0
-seasonNineYear: 0
-seasonNineteenYear: 0
-seasonOneYear: 0
-seasonSevenYear: 0
-seasonSeventeenYear: 0
-seasonSixYear: 0
-seasonSixteenYear: 0
-seasonStatisticsSGamesPlayed: 0
-seasonTenYear: 0
-seasonThirteenYear: 0
-seasonThreeYear: 0
-seasonTwelveYear: 0
-seasonTwentyYear: 0
-seasonTwoYear: 0
-
-specialTeamsDesignation: false
-status: "Active Roster"
-
-teamId: 49
-uniformNumber: 0
-
-yearSigned: 0
-*/

@@ -18,12 +18,12 @@ export const draftSlice = createSlice({
     initialState,
     reducers: {
         add: (state, action: PayloadAction<IPlayer>) => {
-            if (!state.players.some(p => p.playerId === action.payload.playerId)) {
+            if (!state.players.some(p => p.Player_ID === action.payload.Player_ID)) {
                 state.players = [...state.players, action.payload];
             }
         },
         remove: (state, action: PayloadAction<IPlayer>) => {
-            const removeIndex = state.players.findIndex(p => p.playerId === action.payload.playerId);
+            const removeIndex = state.players.findIndex(p => p.Player_ID === action.payload.Player_ID);
             if (removeIndex >= 0) {
                 state.players.splice(removeIndex, 1);
             }
@@ -33,7 +33,7 @@ export const draftSlice = createSlice({
         },
         update: (state, action: PayloadAction<Array<IPlayer>>) => {
             state.players = state.players.map(player => {
-                const found = action.payload.find(search => search.playerId === player.playerId);
+                const found = action.payload.find(search => search.Player_ID === player.Player_ID);
                 if (found) {
                     return {
                         ...player,
@@ -43,7 +43,7 @@ export const draftSlice = createSlice({
 
                 return player;
             });
-            const extraPlayers = action.payload.filter(player => state.players.findIndex(search => search.playerId === player.playerId) === -1);
+            const extraPlayers = action.payload.filter(player => state.players.findIndex(search => search.Player_ID === player.Player_ID) === -1);
             state.players = [...state.players, ...extraPlayers];
         }
     }

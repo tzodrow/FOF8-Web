@@ -22,7 +22,7 @@ export const playersSlice = createSlice({
         },
         update: (state, action: PayloadAction<Array<IPlayer>>) => {
             state.players = state.players.map(player => {
-                const found = action.payload.find(search => search.playerId === player.playerId);
+                const found = action.payload.find(search => search.Player_ID === player.Player_ID);
                 if (found) {
                     return {
                         ...player,
@@ -32,7 +32,7 @@ export const playersSlice = createSlice({
 
                 return player;
             });
-            const extraPlayers = action.payload.filter(player => state.players.findIndex(search => search.playerId === player.playerId) === -1);
+            const extraPlayers = action.payload.filter(player => state.players.findIndex(search => search.Player_ID === player.Player_ID) === -1);
             state.players = [...state.players, ...extraPlayers];
         }
     }

@@ -13,6 +13,15 @@ const playerSchema = new mongoose.Schema({
     LeagueId: {
         type: mongoose.ObjectId
     },
+    Season_1_Year : {
+        type: Number
+    },
+    Position_Group : {
+        type: String
+    },
+    Overall_Projection_QB : {
+        type: Number
+    },
     Ratings: {
         type: [ratingsSchema]
     }
