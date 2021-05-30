@@ -12,6 +12,10 @@
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+
+      .icon-header {
+        display: flex;
+      }
     }
   }
 }
