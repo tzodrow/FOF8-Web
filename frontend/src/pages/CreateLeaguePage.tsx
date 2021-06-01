@@ -39,7 +39,7 @@ export function CreateLeaguePage() {
     return (
         <form className={"create-league-form"} noValidate autoComplete="off">
             <Snackbar
-                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
                 open={open}
                 onClose={handleClose}
                 message="League Created"
