@@ -20,7 +20,9 @@ terraform {
     required_version = ">= 0.14.9"
 }
 
-provider "aws" {}
+provider "aws" {
+    region  = "us-west-2"
+}
 
 resource "aws_instance" "fof8-app" {
     ami           = "ami-830c94e3"
