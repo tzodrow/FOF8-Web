@@ -9,11 +9,27 @@ terraform {
             name = "FOF8-Web"
         }
     }
+
+    required_providers {
+        aws = {
+            source  = "hashicorp/aws"
+            version = "~> 3.27"
+        }
+    }
+
+    required_version = ">= 0.14.9"
 }
 
-# An example resource that does nothing.
-# resource "null_resource" "example" {
-#     triggers = {
-#         value = "A example resource that does nothing!"
-#     }
-# }
+provider "aws" {
+    profile = "default"
+    region  = "us-west-2"
+}
+
+resource "aws_instance" "fof8-app" {
+    ami           = "ami-830c94e3"
+    instance_type = "t2.micro"
+
+    tags = {
+        Name = "FOF8AppServerInstance"
+    }
+}
