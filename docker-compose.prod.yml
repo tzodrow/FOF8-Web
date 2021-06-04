@@ -2,9 +2,11 @@ version: "3.7"
 services:
   frontend:
     container_name: frontend
-    build: ./frontend
+    build: 
+        context: ./frontend
+        dockerfile: Dockerfile.prod
     ports:
-      - 3000:3000
+      - 80:80
     stdin_open: true
     volumes:
       - ./frontend:/usr/src/app
@@ -20,7 +22,9 @@ services:
 
   backend:
     container_name: backend
-    build: ./backend
+    build: 
+        context: ./backend
+        dockerfile: Dockerfile.prod
     restart: always
     volumes:
       - ./backend:/usr/src/app
@@ -31,9 +35,10 @@ services:
       - express-mongo
       - react-express
     environment:
-      - NODE_ENV=development
-    ports: 
-      - 3000:3000
+      - NODE_ENV=production
+    ports:
+      - "8080:8080"
+      
   mongo:
     container_name: mongo
     restart: always
@@ -43,7 +48,7 @@ services:
     networks:
       - express-mongo
     ports:
-      - 27017:27017
+      - "27017:27017"
 networks:
   react-express:
   express-mongo:
