@@ -7,6 +7,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { IDraftPlayer } from '../models/player';
+import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles({
   table: {
@@ -15,7 +16,7 @@ const useStyles = makeStyles({
 });
 
 interface IDraftTableProps {
-    players: Array<IDraftPlayer>;
+  players: Array<IDraftPlayer>;
 }
 
 export function CombineTable(props: IDraftTableProps) {
@@ -26,6 +27,7 @@ export function CombineTable(props: IDraftTableProps) {
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
+            <TableCell>Draft Board</TableCell>
             <TableCell>Name</TableCell>
             <TableCell align="right">Position</TableCell>
             <TableCell align="right">Height</TableCell>
@@ -43,6 +45,11 @@ export function CombineTable(props: IDraftTableProps) {
         <TableBody>
           {props.players.map((player) => (
             <TableRow key={player.Player_ID}>
+              <TableCell>
+                <Button variant="contained" color="primary">
+                  Add / Remove
+                </Button>
+              </TableCell>
               <TableCell component="th" scope="row">
                 {player.First_Name} {player.Last_Name}
               </TableCell>
