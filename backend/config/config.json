@@ -1,10 +1,10 @@
 {
   "test":{
-    "PORT": 3000,
+    "PORT": 8080,
     "MONGODB_URI": "mongodb://mongo:27017/FOF8Test"
   },
   "development":{
-    "PORT": 3000,
+    "PORT": 8080,
     "MONGODB_URI": "mongodb://mongo:27017/FOF8"
   },
   "production":{

@@ -6,7 +6,7 @@ import { IFileHistory } from '../models/fileHistory';
 import { IDraftPlayer, IPlayerInformation } from '../models/player';
 
 const myAxiosInstance = axios.create({
-  baseURL: `${process.env.API_BASE_URL}:${process.env.API_PORT}`
+  baseURL: process.env.API_BASE_URL && process.env.API_PORT ? `${process.env.API_BASE_URL}:${process.env.API_PORT}` : "http://localhost:8080"
 });
 myAxiosInstance.defaults.raxConfig = {
   instance: myAxiosInstance,
@@ -66,6 +66,7 @@ export const getPlayers = (leagueId: string, skip: number, setPlayers: (players:
 }
 
 export const getLeagues = (setLeagues: (leagues: Array<ILeague>) => void) => {
+  console.log(process.env);
   myAxiosInstance
     .get("/api/league")
     .then(res => {
