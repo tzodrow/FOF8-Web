@@ -6,7 +6,7 @@ import { IFileHistory } from '../models/fileHistory';
 import { IDraftPlayer, IPlayerInformation } from '../models/player';
 
 const myAxiosInstance = axios.create({
-  baseURL: `${process.env.API_BASE_URL}:${process.env.API_PORT}`
+  baseURL: process.env.API_BASE_URL && process.env.API_PORT ? `${process.env.API_BASE_URL}:${process.env.API_PORT}` : "http://localhost:8080"
 });
 myAxiosInstance.defaults.raxConfig = {
   instance: myAxiosInstance,

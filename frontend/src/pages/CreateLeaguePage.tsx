@@ -28,7 +28,6 @@ export function CreateLeaguePage() {
     }
 
     const onClickCreateLeague = () => {
-        console.log(process.env.PUBLIC_URL);
         createLeague(
             { CreateDate: new Date(), Name: leagueName, Active: true }, 
             (league) => {

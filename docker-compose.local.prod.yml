@@ -37,7 +37,7 @@ services:
     environment:
       - NODE_ENV=production
     ports:
-      - "8080:8080"
+      - 8080:8080
       
   mongo:
     container_name: mongo
@@ -48,7 +48,7 @@ services:
     networks:
       - express-mongo
     ports:
-      - "27017:27017"
+      - 27017:27017
 networks:
   react-express:
   express-mongo:
