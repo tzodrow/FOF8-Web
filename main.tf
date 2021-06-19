@@ -9,7 +9,7 @@ terraform {
       version = "3.0.1"
     }
   }
-  required_version = "~> 0.14"
+  required_version = "~> 1.0.0"
 
   backend "remote" {
     organization = "Zodrow-LLC"
@@ -24,4 +24,4 @@ provider "aws" {
   region = "us-west-2"
 }
 
-# Todo: Deploy Frontend to S2 Bucket1
+# Todo: Deploy Frontend to S2 Buckett
