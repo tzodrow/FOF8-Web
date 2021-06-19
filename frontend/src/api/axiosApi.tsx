@@ -66,7 +66,6 @@ export const getPlayers = (leagueId: string, skip: number, setPlayers: (players:
 }
 
 export const getLeagues = (setLeagues: (leagues: Array<ILeague>) => void) => {
-  console.log(process.env);
   myAxiosInstance
     .get("/api/league")
     .then(res => {
