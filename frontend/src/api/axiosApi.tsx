@@ -5,7 +5,9 @@ import { ILeague } from '../models/league';
 import { IFileHistory } from '../models/fileHistory';
 import { IDraftPlayer, IPlayerInformation } from '../models/player';
 
-const myAxiosInstance = axios.create();
+const myAxiosInstance = axios.create({
+  baseURL: `${process.env.API_BASE_URL}:${process.env.API_PORT}`
+});
 myAxiosInstance.defaults.raxConfig = {
   instance: myAxiosInstance,
   retry: 3,

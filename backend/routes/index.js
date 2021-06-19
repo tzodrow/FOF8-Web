@@ -10,6 +10,12 @@ const playerResultLimit = 15;
 const routes = (app) => {
   const router = express.Router();
 
+  app.use(function(error, req, res, next) {
+    console.log(error);
+    console.log(req);
+    console.log(res);
+  });
+
   router.get("/draft/years", (req, res) => {
     if (!req.query.LeagueId) {
       serverResponses.sendError(res, messages.BAD_REQUEST, "Missing LeagueId.");

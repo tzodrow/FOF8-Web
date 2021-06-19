@@ -1,0 +1,37 @@
+version: "3.7"
+services:
+  frontend:
+    image: 212864024966.dkr.ecr.us-west-2.amazonaws.com/fof8-test-image:prod
+    container_name: frontend
+    ports:
+      - 80:80
+    networks:
+      - react-express
+    environment: 
+      - API_BASE_URL=http://deplo-loadb-1qpwkd90ddzm4-d82ebd314db7e39a.elb.us-west-2.amazonaws.com
+      - API_PORT=8080
+    depends_on:
+      - backend
+
+  backend:
+    image: 212864024966.dkr.ecr.us-west-2.amazonaws.com/fof8-test-backend:prod
+    container_name: backend
+    depends_on:
+      - mongo
+    networks:
+      - express-mongo
+      - react-express
+    environment:
+      - NODE_ENV=production
+    ports:
+      - "8080:8080"
+  mongo:
+    container_name: mongo
+    image: mongo:latest
+    networks:
+      - express-mongo
+    ports:
+      - "27017:27017"
+networks:
+  react-express:
+  express-mongo:
